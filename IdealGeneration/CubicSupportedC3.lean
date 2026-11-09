@@ -59,18 +59,6 @@ private theorem diagonal_center_2 : ∀ (q : Fin 3) (i : Fin 7) (k : Fin 2),
 private theorem diagonal_center_3 : ∀ (q : Fin 3) (i : Fin 7) (k : Fin 2),
     c3Parameters.diagonalLift 0 (c3Mixed 3 q) i k = c3Diagonal 3 q i k := by decide +kernel
 
-private theorem offDiagonal_center_0 : ∀ (q : Fin 3) (e : Edge 7) (k : Fin 2),
-    c3Parameters.offDiagonalLift 0 (c3Mixed 0 q) 0 e k = c3OffDiagonal 0 q e k := by decide +kernel
-
-private theorem offDiagonal_center_1 : ∀ (q : Fin 3) (e : Edge 7) (k : Fin 2),
-    c3Parameters.offDiagonalLift 0 (c3Mixed 1 q) 0 e k = c3OffDiagonal 1 q e k := by decide +kernel
-
-private theorem offDiagonal_center_2 : ∀ (q : Fin 3) (e : Edge 7) (k : Fin 2),
-    c3Parameters.offDiagonalLift 0 (c3Mixed 2 q) 0 e k = c3OffDiagonal 2 q e k := by decide +kernel
-
-private theorem offDiagonal_center_3 : ∀ (q : Fin 3) (e : Edge 7) (k : Fin 2),
-    c3Parameters.offDiagonalLift 0 (c3Mixed 3 q) 0 e k = c3OffDiagonal 3 q e k := by decide +kernel
-
 /-- The generic vertex solve gives the C.3 diagonal coefficient, and zero away from the center. -/
 theorem c3DiagonalLift_eq (c : Fin 4) (q : Fin 3) :
     c3Parameters.diagonalLift 0 (c3Mixed c q) = c3Diagonal c q := by
@@ -81,15 +69,153 @@ theorem c3DiagonalLift_eq (c : Fin 4) (q : Fin 3) :
   · exact diagonal_center_2 q i k
   · exact diagonal_center_3 q i k
 
+namespace Parameters
+
+variable {K : Type*} [Field K] {m : ℕ} (P : Parameters K m)
+
+/-- Valid normal evaluations and the single-edge gauge determine the edge lift. -/
+private theorem offDiagonalLift_unique (C : Fin 4 → K) (B : Fin m → Fin 3 → K)
+    (z : P.SingleEdge → K) (A : Edge m → Fin 2 → K)
+    (hEval : ∀ e d, P.EdgeSlot e d →
+      normalLinear (A e) 1 (P.edgeSlope e d) = P.edgeRhs C B e d)
+    (hGauge : ∀ e (hs : P.single e = true), A e 1 = -z ⟨e, hs⟩) :
+    A = P.offDiagonalLift C B z := by
+  funext e
+  have hSlot (d : Fin 2) (hd : P.EdgeSlot e d) :
+      A e 0 + A e 1 * P.edgeSlope e d =
+        P.offDiagonalLift C B z e 0 + P.offDiagonalLift C B z e 1 * P.edgeSlope e d := by
+    simpa only [normalLinear, mul_one] using
+      (hEval e d hd).trans (P.offDiagonalLift_normal C B z e d hd).symm
+  have h₀ := hSlot 0 (Or.inr rfl)
+  have h₁ : A e 1 = P.offDiagonalLift C B z e 1 := by
+    by_cases hs : P.single e = true
+    · simpa only [offDiagonalLift, dite_eq_left hs, Matrix.cons_val_one,
+        Matrix.cons_val_fin_one] using hGauge e hs
+    · have hf : P.single e = false := Bool.eq_false_of_not_eq_true hs
+      have hdiff : (A e 1 - P.offDiagonalLift C B z e 1) *
+          (P.edgeSlope e 1 - P.edgeSlope e 0) = 0 := by
+        linear_combination hSlot 1 (Or.inl hf) - h₀
+      exact sub_eq_zero.mp ((mul_eq_zero.mp hdiff).resolve_right
+        (sub_ne_zero.mpr (P.edgeSlope_ne e hf).symm))
+  have h₀' : A e 0 = P.offDiagonalLift C B z e 0 := by
+    rw [h₁] at h₀
+    exact add_right_cancel h₀
+  funext k
+  fin_cases k
+  · exact h₀'
+  · exact h₁
+
+end Parameters
+
+private theorem c3EdgeSlope_symm (i j : Fin 7) (d : Fin 2) :
+    edgeSlopeQ i j d = edgeSlopeQ j i d := by
+  fin_cases i <;> fin_cases j <;> rfl
+
+private theorem c3EdgeHeight_symm (i j : Fin 7) (d : Fin 2) :
+    edgeHeightQ i j d = edgeHeightQ j i d := by
+  fin_cases i <;> fin_cases j <;> rfl
+
+private theorem c3EdgeLambda_symm (i j : Fin 7) :
+    edgeLambdaQ i j = edgeLambdaQ j i := by
+  fin_cases i <;> fin_cases j <;> rfl
+
+private theorem c3SingleEdge_symm (i j : Fin 7) :
+    singleEdge i j = singleEdge j i := by
+  unfold singleEdge
+  ac_rfl
+
+private theorem c3NormalQuadratic (c : Fin 4) (q : Fin 3) (i : Fin 7) (t : ℚ) :
+    normalQuadratic (c3Mixed c q i) 1 t =
+      if i = centerIndex c then normalBasisValueQ q t else 0 := by
+  by_cases hi : i = centerIndex c
+  · fin_cases q <;> simp [normalQuadratic, c3Mixed, hi, normalBasisValueQ, pow_two]
+  · simp [normalQuadratic, c3Mixed, hi]
+
+private theorem c3NormalPair (a : Fin 2 → ℚ) (t : ℚ) :
+    normalLinear a 1 t = normalPairQ a t := by
+  simp [normalLinear, normalPairQ, mul_comm]
+
+private theorem c3TableConstraint (c : Fin 4) (q : Fin 3) (e : Edge 7) (d : Fin 2)
+    (hd : c3Parameters.EdgeSlot e d) :
+    normalCubic 0 1 (c3Parameters.edgeSlope e d) +
+      c3Parameters.edgeHeight e d *
+        (normalQuadratic (c3Mixed c q e.val.1) 1 (c3Parameters.edgeSlope e d) +
+          c3Parameters.edgeLambda e *
+            normalQuadratic (c3Mixed c q e.val.2) 1 (c3Parameters.edgeSlope e d)) +
+      (c3Parameters.edgeHeight e d) ^ 2 *
+        (normalLinear (c3Diagonal c q e.val.1) 1 (c3Parameters.edgeSlope e d) +
+          c3Parameters.edgeLambda e *
+            normalLinear (c3OffDiagonal c q e) 1 (c3Parameters.edgeSlope e d) +
+          (c3Parameters.edgeLambda e) ^ 2 *
+            normalLinear (c3Diagonal c q e.val.2) 1 (c3Parameters.edgeSlope e d)) = 0 := by
+  rcases e with ⟨⟨i, j⟩, hij⟩
+  change i < j at hij
+  change edgeSlot i j d at hd
+  simp only [c3Parameters, c3NormalQuadratic, c3NormalPair, normalCubic, Pi.zero_apply,
+    zero_mul, zero_add]
+  by_cases hi : i = centerIndex c
+  · subst i
+    have hj : j ≠ centerIndex c := ne_of_gt hij
+    have h := lift_edge_equationsQ c q j d hj hd
+    simp only [edgeExpressionQ, ite_eq_left hij] at h
+    simp only [ite_true, ite_eq_right hj, c3Diagonal, c3OffDiagonal, normalPairQ,
+      add_zero, mul_zero]
+    simp only [normalPairQ] at h
+    linear_combination edgeHeightQ (centerIndex c) j d * h
+  · by_cases hj : j = centerIndex c
+    · subst j
+      have hd' : edgeSlot (centerIndex c) i d := by
+        unfold edgeSlot at *
+        simpa only [c3SingleEdge_symm (centerIndex c) i] using hd
+      have h := lift_edge_equationsQ c q i d hi hd'
+      simp only [edgeExpressionQ, ite_eq_right (not_lt_of_gt hij), normalPairQ,
+        c3EdgeSlope_symm (centerIndex c) i, c3EdgeHeight_symm (centerIndex c) i,
+        c3EdgeLambda_symm (centerIndex c) i] at h
+      simp only [ite_eq_right hi, ite_true, c3Diagonal, c3OffDiagonal, normalPairQ,
+        zero_add]
+      linear_combination (edgeHeightQ i (centerIndex c) d *
+        edgeLambdaQ i (centerIndex c)) * h
+    · simp [hi, hj, c3Diagonal, c3OffDiagonal, normalPairQ]
+
+private theorem c3TableEvaluation (c : Fin 4) (q : Fin 3) (e : Edge 7) (d : Fin 2)
+    (hd : c3Parameters.EdgeSlot e d) :
+    normalLinear (c3OffDiagonal c q e) 1 (c3Parameters.edgeSlope e d) =
+      c3Parameters.edgeRhs 0 (c3Mixed c q) e d := by
+  have hGraph := c3Parameters.offDiagonalLift_constraint 0 (c3Mixed c q) 0 e d hd
+  rw [c3DiagonalLift_eq, c3Parameters.offDiagonalLift_normal 0 (c3Mixed c q) 0 e d hd]
+    at hGraph
+  have hTable := c3TableConstraint c q e d hd
+  have hDiff : (c3Parameters.edgeHeight e d ^ 2 * c3Parameters.edgeLambda e) *
+      (normalLinear (c3OffDiagonal c q e) 1 (c3Parameters.edgeSlope e d) -
+        c3Parameters.edgeRhs 0 (c3Mixed c q) e d) = 0 := by
+    linear_combination hTable - hGraph
+  exact sub_eq_zero.mp ((mul_eq_zero.mp hDiff).resolve_left
+    (mul_ne_zero (pow_ne_zero _ (c3Parameters.edgeHeight_ne e d)) (c3Parameters.edgeLambda_ne e)))
+
+private theorem c3TableGauge (c : Fin 4) (q : Fin 3) (e : Edge 7)
+    (hs : c3Parameters.single e = true) : c3OffDiagonal c q e 1 = 0 := by
+  rcases e with ⟨⟨i, j⟩, hij⟩
+  change i < j at hij
+  change singleEdge i j = true at hs
+  by_cases hi : i = centerIndex c
+  · subst i
+    simpa only [c3OffDiagonal, ite_true] using
+      lift_single_gaugeQ c q j (ne_of_gt hij) hs
+  · by_cases hj : j = centerIndex c
+    · subst j
+      have hs' : singleEdge (centerIndex c) i = true := by
+        rwa [c3SingleEdge_symm (centerIndex c) i]
+      simpa only [c3OffDiagonal, ite_eq_right hi, ite_true] using lift_single_gaugeQ c q i hi hs'
+    · simp [c3OffDiagonal, hi, hj]
+
 /-- The generic edge solve in the zero single-edge gauge gives the C.3 edge coefficient. -/
 theorem c3OffDiagonalLift_eq (c : Fin 4) (q : Fin 3) :
     c3Parameters.offDiagonalLift 0 (c3Mixed c q) 0 = c3OffDiagonal c q := by
-  funext e k
-  fin_cases c
-  · exact offDiagonal_center_0 q e k
-  · exact offDiagonal_center_1 q e k
-  · exact offDiagonal_center_2 q e k
-  · exact offDiagonal_center_3 q e k
+  symm
+  apply c3Parameters.offDiagonalLift_unique 0 (c3Mixed c q) 0
+  · exact c3TableEvaluation c q
+  · intro e hs
+    simpa only [Pi.zero_apply, neg_zero] using c3TableGauge c q e hs
 
 /-- The actual supported cubic for the pure mixed quadratic in C.3. -/
 noncomputable def c3LiftPolynomial (c : Fin 4) (q : Fin 3) : Poly ℚ 9 :=

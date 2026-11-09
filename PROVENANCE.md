@@ -26,13 +26,20 @@ audit checks the resulting logical dependencies. The twelve-variable certificate
 declaration boundary into data and proof modules to keep each file below
 10,000 lines. Its independent row checks are grouped into six proof modules
 to bound compilation memory. Two finite case aggregations use balanced
-applications of the existing finite-index lemmas. The existing arithmetic
+applications of the existing finite-index lemmas. Its arithmetic leaf
 proof bodies are retained. Four helper
 lemmas in `CubicInitialStructured.lean` are public so they can occur in the
 public structure's proof fields under the module system. The column-permutation
 injectivity lemma in `CubicTenShift.lean` is exposed for the same reason.
 The base-case coordinate equality in `QuadraticMiddleRank.lean` uses an explicit
 pointwise proof in place of the former simplifier call.
+The C.3 off-diagonal coefficient comparison uses the existing rational edge
+equations and uniqueness of the two-slope solve. This bounds the independent
+checker's stack use during verification.
+The rational lift algorithm is identified with the coefficient table using
+its certified vertex and edge equations. The rational evaluation matrix is
+checked one entry at a time with `norm_num` and combined using the finite-index
+lemmas.
 
 `SOURCE_MANIFEST.json` records the source files and their SHA-256 digests.
 The standalone Challenge states the mathematical claim independently of

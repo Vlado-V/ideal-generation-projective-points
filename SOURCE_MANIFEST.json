@@ -1181,8 +1181,8 @@
     },
     {
       "path": "IdealGeneration/CubicPairRationalConstruction.lean",
-      "bytes": 24597,
-      "sha256": "2798de9b449b28761b99898be01a7db836f83c29af2d923d4acd720d59391314"
+      "bytes": 223749,
+      "sha256": "892fa7abe59b7e6d542309b31e42e2f551d0455e076162556439211eab8dbdb5"
     },
     {
       "path": "IdealGeneration/CubicParameterBasis.lean",
@@ -1326,8 +1326,8 @@
     },
     {
       "path": "IdealGeneration/CubicSupportedC3.lean",
-      "bytes": 13822,
-      "sha256": "ffc2594c87494c92167fb51951cb4e3c9482962914f67cbbaa476d368d75ed82"
+      "bytes": 19474,
+      "sha256": "6ef192eb923ae2a1050c72b3375b00971527be9b55b82edca3ca1ed717031a47"
     },
     {
       "path": "IdealGeneration/CubicSupportedCoefficientUniqueness.lean",
@@ -3086,8 +3086,8 @@
     },
     {
       "path": "PROVENANCE.md",
-      "bytes": 2215,
-      "sha256": "cd3ca1f2f195ac7fdf95c28a012a124295114e0584d98d19bcce8f81e85dd0fb"
+      "bytes": 2643,
+      "sha256": "f99222b24206e9cdc86767d89d2e3d2d78e218c4f9a396226e0b7d4df1285606"
     },
     {
       "path": "README.md",
@@ -3136,8 +3136,8 @@
     },
     {
       "path": "verification.log",
-      "bytes": 4940,
-      "sha256": "4fbe53a48fbcb025ec821ab1c9b6494afa6dbd8b974e560651188bcf44798a76"
+      "bytes": 5122,
+      "sha256": "de519229b1f671ca528b1a1726ac284096cebdb2e7ce9198d0e02e141bce5c00"
     }
   ]
 }

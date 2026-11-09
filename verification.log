@@ -1,4 +1,4 @@
-PASS. Audited 44626 local definitions and theorems. Only propext, Classical.choice, and Quot.sound occur.
+PASS. Audited 45291 local definitions and theorems. Only propext, Classical.choice, and Quot.sound occur.
 'IdealGeneration.generic_pointHilbertFunction' depends on axioms: [propext, Classical.choice, Quot.sound]
 'IdealGeneration.pointEuler_maximalRank_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
 'IdealGeneration.reduction_to_critical_counts' depends on axioms: [propext, Classical.choice, Quot.sound]
@@ -56,3 +56,6 @@ PASS. Audited 44626 local definitions and theorems. Only propext, Classical.choi
 'IdealGeneration.idealGenerationAt_cubic' depends on axioms: [propext, Classical.choice, Quot.sound]
 'IdealGeneration.theorem_one_one' depends on axioms: [propext, Classical.choice, Quot.sound]
 'IdealGenerationPaper.main_result' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+PASS. Local Lean v4.35.0-rc3 bundled NanoDa accepted the complete Solution export with four workers.
+Export SHA-256 995cf5712180fa693d312e8333d1e77454b4af73f6fc8c073f57b2d63db61781
