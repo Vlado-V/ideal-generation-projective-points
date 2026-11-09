@@ -1,0 +1,3688 @@
+name = "idealGeneration"
+version = "0.1.0"
+defaultTargets = ["IdealGeneration", "Solution"]
+moreLeanArgs = ["-j1", "-DwarningAsError=true", "-DrelaxedAutoImplicit=false"]
+requiresModuleSystem = true
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "8accc04827c389e678c3ef83e623b402e7480394"
+
+# Module ownership and scheduling follow the earlier proof repositories.
+# Each exact module glob owns one local source. Three dependency chains cap
+# local Lean elaboration at three concurrent jobs; large data modules consume
+# all three chains so their elaboration runs alone. Mathematical sources and
+# proof dependencies are unchanged by this scheduling configuration.
+
+[[lean_lib]]
+name = "IdealGeneration"
+globs = ["IdealGeneration"]
+needs = ["MemoryOrder0601"]
+
+[[lean_lib]]
+name = "Solution"
+globs = ["Solution"]
+needs = ["MemoryOrder0602"]
+
+# The statement-only Challenge has an intentional proof hole for Comparator.
+# It is built separately after the proof targets and is outside the strict
+# default build. Its compiler reports the expected proof-hole warning.
+[[lean_lib]]
+name = "Challenge"
+globs = ["Challenge"]
+moreLeanArgs = ["-DwarningAsError=false"]
+needs = ["MemoryOrder0603", "IdealGeneration", "Solution"]
+
+[[lean_lib]]
+name = "MemoryOrder0001"
+roots = []
+globs = ["IdealGeneration.BlockDeterminantDeformation"]
+
+[[lean_lib]]
+name = "MemoryOrder0002"
+roots = []
+globs = ["IdealGeneration.CertifiedFinCases"]
+
+[[lean_lib]]
+name = "MemoryOrder0003"
+roots = []
+globs = ["IdealGeneration.CertifiedFiniteRank"]
+
+[[lean_lib]]
+name = "MemoryOrder0004"
+roots = []
+globs = ["IdealGeneration.CertifiedLowerUpperRank"]
+needs = ["MemoryOrder0001"]
+
+[[lean_lib]]
+name = "MemoryOrder0005"
+roots = []
+globs = ["IdealGeneration.CertifiedSparseRow"]
+needs = ["MemoryOrder0002"]
+
+[[lean_lib]]
+name = "MemoryOrder0006"
+roots = []
+globs = ["IdealGeneration.CertifiedPackedBounds"]
+needs = ["MemoryOrder0003"]
+
+[[lean_lib]]
+name = "MemoryOrder0007"
+roots = []
+globs = ["IdealGeneration.CertifiedPackedRows"]
+needs = ["MemoryOrder0004"]
+
+[[lean_lib]]
+name = "MemoryOrder0008"
+roots = []
+globs = ["IdealGeneration.CertifiedDenseProduct"]
+needs = ["MemoryOrder0005"]
+
+[[lean_lib]]
+name = "MemoryOrder0009"
+roots = []
+globs = ["IdealGeneration.CertifiedSparseTree"]
+needs = ["MemoryOrder0006"]
+
+[[lean_lib]]
+name = "MemoryOrder0010"
+roots = []
+globs = ["IdealGeneration.ConeLinear"]
+needs = ["MemoryOrder0007"]
+
+[[lean_lib]]
+name = "MemoryOrder0011"
+roots = []
+globs = ["IdealGeneration.CubicB7RootCert.Common"]
+needs = ["MemoryOrder0008"]
+
+[[lean_lib]]
+name = "MemoryOrder0012"
+roots = []
+globs = ["IdealGeneration.CubicB7RootCert.Data"]
+needs = ["MemoryOrder0009"]
+
+[[lean_lib]]
+name = "MemoryOrder0013"
+roots = []
+globs = ["IdealGeneration.CubicB7RootCert.Inverse0"]
+needs = ["MemoryOrder0010"]
+
+[[lean_lib]]
+name = "MemoryOrder0014"
+roots = []
+globs = ["IdealGeneration.CubicB7RootCert.Checks0_000"]
+needs = ["MemoryOrder0011"]
+
+[[lean_lib]]
+name = "MemoryOrder0015"
+roots = []
+globs = ["IdealGeneration.CubicB7RootCert.Checks0_024"]
+needs = ["MemoryOrder0012"]
+
+[[lean_lib]]
+name = "MemoryOrder0016"
+roots = []
+globs = ["IdealGeneration.CubicB7RootCert.Checks0_048"]
+needs = ["MemoryOrder0013"]
+
+[[lean_lib]]
+name = "MemoryOrder0017"
+roots = []
+globs = ["IdealGeneration.CubicB7RootCert.Checks0_072"]
+needs = ["MemoryOrder0014"]
+
+[[lean_lib]]
+name = "MemoryOrder0018"
+roots = []
+globs = ["IdealGeneration.CubicB7RootCert.Inverse1"]
+needs = ["MemoryOrder0015"]
+
+[[lean_lib]]
+name = "MemoryOrder0019"
+roots = []
+globs = ["IdealGeneration.CubicB7RootCert.Checks1_000"]
+needs = ["MemoryOrder0016"]
+
+[[lean_lib]]
+name = "MemoryOrder0020"
+roots = []
+globs = ["IdealGeneration.CubicB7RootCert.Checks1_024"]
+needs = ["MemoryOrder0017"]
+
+[[lean_lib]]
+name = "MemoryOrder0021"
+roots = []
+globs = ["IdealGeneration.CubicB7RootCert.Checks1_048"]
+needs = ["MemoryOrder0018"]
+
+[[lean_lib]]
+name = "MemoryOrder0022"
+roots = []
+globs = ["IdealGeneration.CubicB7RootCert.Checks1_072"]
+needs = ["MemoryOrder0019"]
+
+[[lean_lib]]
+name = "MemoryOrder0023"
+roots = []
+globs = ["IdealGeneration.CubicB7RootCertificate"]
+needs = ["MemoryOrder0020"]
+
+[[lean_lib]]
+name = "MemoryOrder0024"
+roots = []
+globs = ["IdealGeneration.CubicColumnCorrection"]
+needs = ["MemoryOrder0021"]
+
+[[lean_lib]]
+name = "MemoryOrder0025"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.PackedQuotients"]
+needs = ["MemoryOrder0022", "MemoryOrder0023", "MemoryOrder0024"]
+
+[[lean_lib]]
+name = "MemoryOrder0026"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.PackedUpper"]
+needs = ["MemoryOrder0025"]
+
+[[lean_lib]]
+name = "MemoryOrder0027"
+roots = []
+globs = ["IdealGeneration.CubicInitialDataColumns"]
+needs = ["MemoryOrder0026"]
+
+[[lean_lib]]
+name = "MemoryOrder0028"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.LowerRows"]
+needs = ["MemoryOrder0027", "MemoryOrder0026"]
+
+[[lean_lib]]
+name = "MemoryOrder0029"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.SelectedIndices"]
+needs = ["MemoryOrder0028"]
+
+[[lean_lib]]
+name = "MemoryOrder0030"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.UpperRows"]
+needs = ["MemoryOrder0028", "MemoryOrder0029"]
+
+[[lean_lib]]
+name = "MemoryOrder0031"
+roots = []
+globs = ["IdealGeneration.CubicInitialMatrixData"]
+needs = ["MemoryOrder0030"]
+
+[[lean_lib]]
+name = "MemoryOrder0032"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.TargetRows"]
+needs = ["MemoryOrder0031"]
+
+[[lean_lib]]
+name = "MemoryOrder0033"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.CheckDefinitions"]
+needs = ["MemoryOrder0031"]
+
+[[lean_lib]]
+name = "MemoryOrder0034"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks000"]
+needs = ["MemoryOrder0031"]
+
+[[lean_lib]]
+name = "MemoryOrder0035"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks032"]
+needs = ["MemoryOrder0032"]
+
+[[lean_lib]]
+name = "MemoryOrder0036"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks064"]
+needs = ["MemoryOrder0033"]
+
+[[lean_lib]]
+name = "MemoryOrder0037"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks096"]
+needs = ["MemoryOrder0034"]
+
+[[lean_lib]]
+name = "MemoryOrder0038"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks128"]
+needs = ["MemoryOrder0035"]
+
+[[lean_lib]]
+name = "MemoryOrder0039"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks160"]
+needs = ["MemoryOrder0036"]
+
+[[lean_lib]]
+name = "MemoryOrder0040"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks192"]
+needs = ["MemoryOrder0037"]
+
+[[lean_lib]]
+name = "MemoryOrder0041"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks224"]
+needs = ["MemoryOrder0038"]
+
+[[lean_lib]]
+name = "MemoryOrder0042"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks256"]
+needs = ["MemoryOrder0039"]
+
+[[lean_lib]]
+name = "MemoryOrder0043"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks288"]
+needs = ["MemoryOrder0040"]
+
+[[lean_lib]]
+name = "MemoryOrder0044"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks320"]
+needs = ["MemoryOrder0041"]
+
+[[lean_lib]]
+name = "MemoryOrder0045"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks352"]
+needs = ["MemoryOrder0042"]
+
+[[lean_lib]]
+name = "MemoryOrder0046"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks384"]
+needs = ["MemoryOrder0043"]
+
+[[lean_lib]]
+name = "MemoryOrder0047"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks416"]
+needs = ["MemoryOrder0044"]
+
+[[lean_lib]]
+name = "MemoryOrder0048"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks448"]
+needs = ["MemoryOrder0045"]
+
+[[lean_lib]]
+name = "MemoryOrder0049"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks480"]
+needs = ["MemoryOrder0046"]
+
+[[lean_lib]]
+name = "MemoryOrder0050"
+roots = []
+globs = ["IdealGeneration.CubicInitialCert.Checks512"]
+needs = ["MemoryOrder0047"]
+
+[[lean_lib]]
+name = "MemoryOrder0051"
+roots = []
+globs = ["IdealGeneration.CubicInitialPackedCertificate"]
+needs = ["MemoryOrder0048"]
+
+[[lean_lib]]
+name = "MemoryOrder0052"
+roots = []
+globs = ["IdealGeneration.CubicPairLifts"]
+needs = ["MemoryOrder0049"]
+
+[[lean_lib]]
+name = "MemoryOrder0053"
+roots = []
+globs = ["IdealGeneration.CubicPairPolynomial"]
+needs = ["MemoryOrder0050"]
+
+[[lean_lib]]
+name = "MemoryOrder0054"
+roots = []
+globs = ["IdealGeneration.CubicPairRationalCertificate"]
+needs = ["MemoryOrder0051", "MemoryOrder0052", "MemoryOrder0053"]
+
+[[lean_lib]]
+name = "MemoryOrder0055"
+roots = []
+globs = ["IdealGeneration.CubicPairRationalConstruction"]
+needs = ["MemoryOrder0054"]
+
+[[lean_lib]]
+name = "MemoryOrder0056"
+roots = []
+globs = ["IdealGeneration.CubicPairEmbedding"]
+needs = ["MemoryOrder0054"]
+
+[[lean_lib]]
+name = "MemoryOrder0057"
+roots = []
+globs = ["IdealGeneration.CubicRootCert.Data"]
+needs = ["MemoryOrder0055", "MemoryOrder0056", "MemoryOrder0054"]
+
+[[lean_lib]]
+name = "MemoryOrder0058"
+roots = []
+globs = ["IdealGeneration.CubicRootCert.PackedData"]
+needs = ["MemoryOrder0057"]
+
+[[lean_lib]]
+name = "MemoryOrder0059"
+roots = []
+globs = ["IdealGeneration.CubicRootCert.Checks000"]
+needs = ["MemoryOrder0058"]
+
+[[lean_lib]]
+name = "MemoryOrder0060"
+roots = []
+globs = ["IdealGeneration.CubicRootCert.Checks032"]
+needs = ["MemoryOrder0058"]
+
+[[lean_lib]]
+name = "MemoryOrder0061"
+roots = []
+globs = ["IdealGeneration.CubicRootCert.Checks064"]
+needs = ["MemoryOrder0058"]
+
+[[lean_lib]]
+name = "MemoryOrder0062"
+roots = []
+globs = ["IdealGeneration.CubicRootCert.Checks096"]
+needs = ["MemoryOrder0059"]
+
+[[lean_lib]]
+name = "MemoryOrder0063"
+roots = []
+globs = ["IdealGeneration.CubicRootCert.Checks128"]
+needs = ["MemoryOrder0060"]
+
+[[lean_lib]]
+name = "MemoryOrder0064"
+roots = []
+globs = ["IdealGeneration.CubicRootCert.Assembled"]
+needs = ["MemoryOrder0061"]
+
+[[lean_lib]]
+name = "MemoryOrder0065"
+roots = []
+globs = ["IdealGeneration.CubicRootCert.Factorization"]
+needs = ["MemoryOrder0062"]
+
+[[lean_lib]]
+name = "MemoryOrder0066"
+roots = []
+globs = ["IdealGeneration.CubicRootCertificate"]
+needs = ["MemoryOrder0063"]
+
+[[lean_lib]]
+name = "MemoryOrder0067"
+roots = []
+globs = ["IdealGeneration.CubicRootProbe"]
+needs = ["MemoryOrder0064"]
+
+[[lean_lib]]
+name = "MemoryOrder0068"
+roots = []
+globs = ["IdealGeneration.CubicTenPackedData"]
+needs = ["MemoryOrder0065"]
+
+[[lean_lib]]
+name = "MemoryOrder0069"
+roots = []
+globs = ["IdealGeneration.CubicTenMiddleCertificate"]
+needs = ["MemoryOrder0066", "MemoryOrder0067", "MemoryOrder0068"]
+
+[[lean_lib]]
+name = "MemoryOrder0070"
+roots = []
+globs = ["IdealGeneration.CubicTenNormalKernelCertificate"]
+needs = ["MemoryOrder0069"]
+
+[[lean_lib]]
+name = "MemoryOrder0071"
+roots = []
+globs = ["IdealGeneration.CubicTenNormalPivotCertificate"]
+needs = ["MemoryOrder0069"]
+
+[[lean_lib]]
+name = "MemoryOrder0072"
+roots = []
+globs = ["IdealGeneration.CubicTenTraceKernelCertificate"]
+needs = ["MemoryOrder0069"]
+
+[[lean_lib]]
+name = "MemoryOrder0073"
+roots = []
+globs = ["IdealGeneration.CubicTenTracePivotCertificate"]
+needs = ["MemoryOrder0070"]
+
+[[lean_lib]]
+name = "MemoryOrder0074"
+roots = []
+globs = ["IdealGeneration.Deformation"]
+needs = ["MemoryOrder0071"]
+
+[[lean_lib]]
+name = "MemoryOrder0075"
+roots = []
+globs = ["IdealGeneration.DeformationNormalization"]
+needs = ["MemoryOrder0072"]
+
+[[lean_lib]]
+name = "MemoryOrder0076"
+roots = []
+globs = ["IdealGeneration.Euler"]
+needs = ["MemoryOrder0073"]
+
+[[lean_lib]]
+name = "MemoryOrder0077"
+roots = []
+globs = ["IdealGeneration.FiniteCertificate"]
+needs = ["MemoryOrder0074"]
+
+[[lean_lib]]
+name = "MemoryOrder0078"
+roots = []
+globs = ["IdealGeneration.GenericMatrixDescent"]
+needs = ["MemoryOrder0075"]
+
+[[lean_lib]]
+name = "MemoryOrder0079"
+roots = []
+globs = ["IdealGeneration.CubicRationalFormula"]
+needs = ["MemoryOrder0076"]
+
+[[lean_lib]]
+name = "MemoryOrder0080"
+roots = []
+globs = ["IdealGeneration.CyclotomicMatrixDescent"]
+needs = ["MemoryOrder0077"]
+
+[[lean_lib]]
+name = "MemoryOrder0081"
+roots = []
+globs = ["IdealGeneration.GenericRectangularDescent"]
+needs = ["MemoryOrder0078"]
+
+[[lean_lib]]
+name = "MemoryOrder0082"
+roots = []
+globs = ["IdealGeneration.Homogeneous"]
+needs = ["MemoryOrder0079"]
+
+[[lean_lib]]
+name = "MemoryOrder0083"
+roots = []
+globs = ["IdealGeneration.HyperplanePolynomial"]
+needs = ["MemoryOrder0080"]
+
+[[lean_lib]]
+name = "MemoryOrder0084"
+roots = []
+globs = ["IdealGeneration.HyperplaneSpan"]
+needs = ["MemoryOrder0081"]
+
+[[lean_lib]]
+name = "MemoryOrder0085"
+roots = []
+globs = ["IdealGeneration.IntegerKernelChart"]
+needs = ["MemoryOrder0082"]
+
+[[lean_lib]]
+name = "MemoryOrder0086"
+roots = []
+globs = ["IdealGeneration.MatrixKernelFree"]
+needs = ["MemoryOrder0083"]
+
+[[lean_lib]]
+name = "MemoryOrder0087"
+roots = []
+globs = ["IdealGeneration.Numerics"]
+needs = ["MemoryOrder0084"]
+
+[[lean_lib]]
+name = "MemoryOrder0088"
+roots = []
+globs = ["IdealGeneration.InductionNumerics"]
+needs = ["MemoryOrder0085"]
+
+[[lean_lib]]
+name = "MemoryOrder0089"
+roots = []
+globs = ["IdealGeneration.IntegralTraceNumerics"]
+needs = ["MemoryOrder0086"]
+
+[[lean_lib]]
+name = "MemoryOrder0090"
+roots = []
+globs = ["IdealGeneration.CubicInductionNumerics"]
+needs = ["MemoryOrder0087"]
+
+[[lean_lib]]
+name = "MemoryOrder0091"
+roots = []
+globs = ["IdealGeneration.FractionalTraceNumerics"]
+needs = ["MemoryOrder0088"]
+
+[[lean_lib]]
+name = "MemoryOrder0092"
+roots = []
+globs = ["IdealGeneration.FractionalHyperplaneCounts"]
+needs = ["MemoryOrder0089"]
+
+[[lean_lib]]
+name = "MemoryOrder0093"
+roots = []
+globs = ["IdealGeneration.HigherFractionalBoundsAux"]
+needs = ["MemoryOrder0090"]
+
+[[lean_lib]]
+name = "MemoryOrder0094"
+roots = []
+globs = ["IdealGeneration.PlaneArithmetic"]
+needs = ["MemoryOrder0091"]
+
+[[lean_lib]]
+name = "MemoryOrder0095"
+roots = []
+globs = ["IdealGeneration.FourVariableFractionalParameters"]
+needs = ["MemoryOrder0092"]
+
+[[lean_lib]]
+name = "MemoryOrder0096"
+roots = []
+globs = ["IdealGeneration.FractionalPointCounts"]
+needs = ["MemoryOrder0093"]
+
+[[lean_lib]]
+name = "MemoryOrder0097"
+roots = []
+globs = ["IdealGeneration.Points"]
+needs = ["MemoryOrder0094"]
+
+[[lean_lib]]
+name = "MemoryOrder0098"
+roots = []
+globs = ["IdealGeneration.Multiplication"]
+needs = ["MemoryOrder0095"]
+
+[[lean_lib]]
+name = "MemoryOrder0099"
+roots = []
+globs = ["IdealGeneration.ConeRepresentatives"]
+needs = ["MemoryOrder0096"]
+
+[[lean_lib]]
+name = "MemoryOrder0100"
+roots = []
+globs = ["IdealGeneration.ConeSplitting"]
+needs = ["MemoryOrder0097"]
+
+[[lean_lib]]
+name = "MemoryOrder0101"
+roots = []
+globs = ["IdealGeneration.ConeReindex"]
+needs = ["MemoryOrder0098"]
+
+[[lean_lib]]
+name = "MemoryOrder0102"
+roots = []
+globs = ["IdealGeneration.CubicSupportedGraph"]
+needs = ["MemoryOrder0099"]
+
+[[lean_lib]]
+name = "MemoryOrder0103"
+roots = []
+globs = ["IdealGeneration.CubicSupportedAmbientDimensions"]
+needs = ["MemoryOrder0100"]
+
+[[lean_lib]]
+name = "MemoryOrder0104"
+roots = []
+globs = ["IdealGeneration.CubicSupportedC3"]
+needs = ["MemoryOrder0101"]
+
+[[lean_lib]]
+name = "MemoryOrder0105"
+roots = []
+globs = ["IdealGeneration.CubicSupportedHomogeneous"]
+needs = ["MemoryOrder0102"]
+
+[[lean_lib]]
+name = "MemoryOrder0106"
+roots = []
+globs = ["IdealGeneration.CubicSupportedCoefficientUniqueness"]
+needs = ["MemoryOrder0103"]
+
+[[lean_lib]]
+name = "MemoryOrder0107"
+roots = []
+globs = ["IdealGeneration.CubicSupportedCoordinates"]
+needs = ["MemoryOrder0104"]
+
+[[lean_lib]]
+name = "MemoryOrder0108"
+roots = []
+globs = ["IdealGeneration.CubicSupportedConfiguration"]
+needs = ["MemoryOrder0105"]
+
+[[lean_lib]]
+name = "MemoryOrder0109"
+roots = []
+globs = ["IdealGeneration.CubicSupportedKernel"]
+needs = ["MemoryOrder0106"]
+
+[[lean_lib]]
+name = "MemoryOrder0110"
+roots = []
+globs = ["IdealGeneration.CubicSupportedActual"]
+needs = ["MemoryOrder0107"]
+
+[[lean_lib]]
+name = "MemoryOrder0111"
+roots = []
+globs = ["IdealGeneration.CubicSupportedPattern"]
+needs = ["MemoryOrder0108"]
+
+[[lean_lib]]
+name = "MemoryOrder0112"
+roots = []
+globs = ["IdealGeneration.CubicLocalFaces"]
+needs = ["MemoryOrder0109"]
+
+[[lean_lib]]
+name = "MemoryOrder0113"
+roots = []
+globs = ["IdealGeneration.CubicFaceAssignment"]
+needs = ["MemoryOrder0110"]
+
+[[lean_lib]]
+name = "MemoryOrder0114"
+roots = []
+globs = ["IdealGeneration.CubicB11Assembly"]
+needs = ["MemoryOrder0111"]
+
+[[lean_lib]]
+name = "MemoryOrder0115"
+roots = []
+globs = ["IdealGeneration.CubicB11PoolCounts"]
+needs = ["MemoryOrder0112"]
+
+[[lean_lib]]
+name = "MemoryOrder0116"
+roots = []
+globs = ["IdealGeneration.CubicHalfFaces"]
+needs = ["MemoryOrder0113"]
+
+[[lean_lib]]
+name = "MemoryOrder0117"
+roots = []
+globs = ["IdealGeneration.CubicPairCoreColumns"]
+needs = ["MemoryOrder0114"]
+
+[[lean_lib]]
+name = "MemoryOrder0118"
+roots = []
+globs = ["IdealGeneration.CubicPairCoreMatch"]
+needs = ["MemoryOrder0115"]
+
+[[lean_lib]]
+name = "MemoryOrder0119"
+roots = []
+globs = ["IdealGeneration.HyperplaneAlgebra"]
+needs = ["MemoryOrder0116"]
+
+[[lean_lib]]
+name = "MemoryOrder0120"
+roots = []
+globs = ["IdealGeneration.HyperplaneEuler"]
+needs = ["MemoryOrder0117"]
+
+[[lean_lib]]
+name = "MemoryOrder0121"
+roots = []
+globs = ["IdealGeneration.DifferentialFiber"]
+needs = ["MemoryOrder0118"]
+
+[[lean_lib]]
+name = "MemoryOrder0122"
+roots = []
+globs = ["IdealGeneration.HyperplaneEulerScalar"]
+needs = ["MemoryOrder0119"]
+
+[[lean_lib]]
+name = "MemoryOrder0123"
+roots = []
+globs = ["IdealGeneration.HyperplanePoints"]
+needs = ["MemoryOrder0120"]
+
+[[lean_lib]]
+name = "MemoryOrder0124"
+roots = []
+globs = ["IdealGeneration.NormalDegree"]
+needs = ["MemoryOrder0121"]
+
+[[lean_lib]]
+name = "MemoryOrder0125"
+roots = []
+globs = ["IdealGeneration.NormalCoefficientRecovery"]
+needs = ["MemoryOrder0122"]
+
+[[lean_lib]]
+name = "MemoryOrder0126"
+roots = []
+globs = ["IdealGeneration.CubicMiddleElimination"]
+needs = ["MemoryOrder0123"]
+
+[[lean_lib]]
+name = "MemoryOrder0127"
+roots = []
+globs = ["IdealGeneration.CubicAllowedValues"]
+needs = ["MemoryOrder0124"]
+
+[[lean_lib]]
+name = "MemoryOrder0128"
+roots = []
+globs = ["IdealGeneration.CubicSupportedCounts"]
+needs = ["MemoryOrder0125"]
+
+[[lean_lib]]
+name = "MemoryOrder0129"
+roots = []
+globs = ["IdealGeneration.OrdinaryHyperplane"]
+needs = ["MemoryOrder0126"]
+
+[[lean_lib]]
+name = "MemoryOrder0130"
+roots = []
+globs = ["IdealGeneration.PointIdealReduced"]
+needs = ["MemoryOrder0127"]
+
+[[lean_lib]]
+name = "MemoryOrder0131"
+roots = []
+globs = ["IdealGeneration.PointIdealLinearSubspace"]
+needs = ["MemoryOrder0128"]
+
+[[lean_lib]]
+name = "MemoryOrder0132"
+roots = []
+globs = ["IdealGeneration.PointMonotonicity"]
+needs = ["MemoryOrder0129"]
+
+[[lean_lib]]
+name = "MemoryOrder0133"
+roots = []
+globs = ["IdealGeneration.PrimeLocalMatrixDescent"]
+needs = ["MemoryOrder0130"]
+
+[[lean_lib]]
+name = "MemoryOrder0134"
+roots = []
+globs = ["IdealGeneration.ProjectiveChartPoints"]
+needs = ["MemoryOrder0131"]
+
+[[lean_lib]]
+name = "MemoryOrder0135"
+roots = []
+globs = ["IdealGeneration.QuadraticA3"]
+needs = ["MemoryOrder0132"]
+
+[[lean_lib]]
+name = "MemoryOrder0136"
+roots = []
+globs = ["IdealGeneration.QuadraticAugmentedEvaluation"]
+needs = ["MemoryOrder0133"]
+
+[[lean_lib]]
+name = "MemoryOrder0137"
+roots = []
+globs = ["IdealGeneration.QuadraticCore"]
+needs = ["MemoryOrder0134"]
+
+[[lean_lib]]
+name = "MemoryOrder0138"
+roots = []
+globs = ["IdealGeneration.QuadraticFlag"]
+needs = ["MemoryOrder0135"]
+
+[[lean_lib]]
+name = "MemoryOrder0139"
+roots = []
+globs = ["IdealGeneration.QuadraticElimination"]
+needs = ["MemoryOrder0136"]
+
+[[lean_lib]]
+name = "MemoryOrder0140"
+roots = []
+globs = ["IdealGeneration.CubicUpperSolve"]
+needs = ["MemoryOrder0137"]
+
+[[lean_lib]]
+name = "MemoryOrder0141"
+roots = []
+globs = ["IdealGeneration.QuadraticFlagInterpolation"]
+needs = ["MemoryOrder0138"]
+
+[[lean_lib]]
+name = "MemoryOrder0142"
+roots = []
+globs = ["IdealGeneration.QuadraticIndependentCones"]
+needs = ["MemoryOrder0139"]
+
+[[lean_lib]]
+name = "MemoryOrder0143"
+roots = []
+globs = ["IdealGeneration.QuadraticInjectiveCore"]
+needs = ["MemoryOrder0140"]
+
+[[lean_lib]]
+name = "MemoryOrder0144"
+roots = []
+globs = ["IdealGeneration.QuadraticLayerJacobian"]
+needs = ["MemoryOrder0141"]
+
+[[lean_lib]]
+name = "MemoryOrder0145"
+roots = []
+globs = ["IdealGeneration.QuadraticLinearForms"]
+needs = ["MemoryOrder0142"]
+
+[[lean_lib]]
+name = "MemoryOrder0146"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimensionPacked"]
+needs = ["MemoryOrder0143"]
+
+[[lean_lib]]
+name = "MemoryOrder0147"
+roots = []
+globs = ["IdealGeneration.QuadraticNormalCoefficients"]
+needs = ["MemoryOrder0144"]
+
+[[lean_lib]]
+name = "MemoryOrder0148"
+roots = []
+globs = ["IdealGeneration.CubicNormalExpansion"]
+needs = ["MemoryOrder0145"]
+
+[[lean_lib]]
+name = "MemoryOrder0149"
+roots = []
+globs = ["IdealGeneration.CubicEliminatedCoordinates"]
+needs = ["MemoryOrder0146"]
+
+[[lean_lib]]
+name = "MemoryOrder0150"
+roots = []
+globs = ["IdealGeneration.CubicLocalLift"]
+needs = ["MemoryOrder0147"]
+
+[[lean_lib]]
+name = "MemoryOrder0151"
+roots = []
+globs = ["IdealGeneration.CubicLiftDecomposition"]
+needs = ["MemoryOrder0148"]
+
+[[lean_lib]]
+name = "MemoryOrder0152"
+roots = []
+globs = ["IdealGeneration.CubicMixedLocality"]
+needs = ["MemoryOrder0149"]
+
+[[lean_lib]]
+name = "MemoryOrder0153"
+roots = []
+globs = ["IdealGeneration.CubicSupportedRationalChart"]
+needs = ["MemoryOrder0150"]
+
+[[lean_lib]]
+name = "MemoryOrder0154"
+roots = []
+globs = ["IdealGeneration.CubicPrimitiveChart"]
+needs = ["MemoryOrder0151"]
+
+[[lean_lib]]
+name = "MemoryOrder0155"
+roots = []
+globs = ["IdealGeneration.CubicUpperBlockEquations"]
+needs = ["MemoryOrder0152"]
+
+[[lean_lib]]
+name = "MemoryOrder0156"
+roots = []
+globs = ["IdealGeneration.QuadraticMultiplicationElimination"]
+needs = ["MemoryOrder0153"]
+
+[[lean_lib]]
+name = "MemoryOrder0157"
+roots = []
+globs = ["IdealGeneration.QuadraticMiddleSpace"]
+needs = ["MemoryOrder0154"]
+
+[[lean_lib]]
+name = "MemoryOrder0158"
+roots = []
+globs = ["IdealGeneration.QuadraticPairEvaluation"]
+needs = ["MemoryOrder0155"]
+
+[[lean_lib]]
+name = "MemoryOrder0159"
+roots = []
+globs = ["IdealGeneration.QuadraticFlagDecomposition"]
+needs = ["MemoryOrder0156"]
+
+[[lean_lib]]
+name = "MemoryOrder0160"
+roots = []
+globs = ["IdealGeneration.QuadraticFlagParameters"]
+needs = ["MemoryOrder0157"]
+
+[[lean_lib]]
+name = "MemoryOrder0161"
+roots = []
+globs = ["IdealGeneration.QuadraticFlagAssembly"]
+needs = ["MemoryOrder0158"]
+
+[[lean_lib]]
+name = "MemoryOrder0162"
+roots = []
+globs = ["IdealGeneration.QuadraticPhiLanding"]
+needs = ["MemoryOrder0159"]
+
+[[lean_lib]]
+name = "MemoryOrder0163"
+roots = []
+globs = ["IdealGeneration.QuadraticFlagLifts"]
+needs = ["MemoryOrder0160"]
+
+[[lean_lib]]
+name = "MemoryOrder0164"
+roots = []
+globs = ["IdealGeneration.QuadraticBlockEvaluation"]
+needs = ["MemoryOrder0161"]
+
+[[lean_lib]]
+name = "MemoryOrder0165"
+roots = []
+globs = ["IdealGeneration.QuadraticConeLinearEvaluation"]
+needs = ["MemoryOrder0162"]
+
+[[lean_lib]]
+name = "MemoryOrder0166"
+roots = []
+globs = ["IdealGeneration.QuadraticProjection"]
+needs = ["MemoryOrder0163"]
+
+[[lean_lib]]
+name = "MemoryOrder0167"
+roots = []
+globs = ["IdealGeneration.QuadraticFlagEliminationBridge"]
+needs = ["MemoryOrder0164"]
+
+[[lean_lib]]
+name = "MemoryOrder0168"
+roots = []
+globs = ["IdealGeneration.QuadraticFlagLiftWitness"]
+needs = ["MemoryOrder0165"]
+
+[[lean_lib]]
+name = "MemoryOrder0169"
+roots = []
+globs = ["IdealGeneration.QuadraticProjectionNaturality"]
+needs = ["MemoryOrder0166"]
+
+[[lean_lib]]
+name = "MemoryOrder0170"
+roots = []
+globs = ["IdealGeneration.QuadraticTraceRestriction"]
+needs = ["MemoryOrder0167"]
+
+[[lean_lib]]
+name = "MemoryOrder0171"
+roots = []
+globs = ["IdealGeneration.CubicPairCoreSamples"]
+needs = ["MemoryOrder0168"]
+
+[[lean_lib]]
+name = "MemoryOrder0172"
+roots = []
+globs = ["IdealGeneration.CubicPairC3Graph"]
+needs = ["MemoryOrder0169"]
+
+[[lean_lib]]
+name = "MemoryOrder0173"
+roots = []
+globs = ["IdealGeneration.CubicPairLocalSamples"]
+needs = ["MemoryOrder0170"]
+
+[[lean_lib]]
+name = "MemoryOrder0174"
+roots = []
+globs = ["IdealGeneration.CubicPureLocality"]
+needs = ["MemoryOrder0171"]
+
+[[lean_lib]]
+name = "MemoryOrder0175"
+roots = []
+globs = ["IdealGeneration.CubicSupportedRestriction"]
+needs = ["MemoryOrder0172"]
+
+[[lean_lib]]
+name = "MemoryOrder0176"
+roots = []
+globs = ["IdealGeneration.CubicPairExtensionLabels"]
+needs = ["MemoryOrder0173"]
+
+[[lean_lib]]
+name = "MemoryOrder0177"
+roots = []
+globs = ["IdealGeneration.CubicPrimitiveSplit"]
+needs = ["MemoryOrder0174"]
+
+[[lean_lib]]
+name = "MemoryOrder0178"
+roots = []
+globs = ["IdealGeneration.CubicPairC3Indices"]
+needs = ["MemoryOrder0175"]
+
+[[lean_lib]]
+name = "MemoryOrder0179"
+roots = []
+globs = ["IdealGeneration.CubicPairC3NewEmbedding"]
+needs = ["MemoryOrder0176"]
+
+[[lean_lib]]
+name = "MemoryOrder0180"
+roots = []
+globs = ["IdealGeneration.CubicProbeDeformation"]
+needs = ["MemoryOrder0177"]
+
+[[lean_lib]]
+name = "MemoryOrder0181"
+roots = []
+globs = ["IdealGeneration.QuadraticFlagRestriction"]
+needs = ["MemoryOrder0178"]
+
+[[lean_lib]]
+name = "MemoryOrder0182"
+roots = []
+globs = ["IdealGeneration.QuadraticUntouchedBaseClearing"]
+needs = ["MemoryOrder0179"]
+
+[[lean_lib]]
+name = "MemoryOrder0183"
+roots = []
+globs = ["IdealGeneration.QuadraticPairProjection"]
+needs = ["MemoryOrder0180"]
+
+[[lean_lib]]
+name = "MemoryOrder0184"
+roots = []
+globs = ["IdealGeneration.QuadraticFlagProbeScalar"]
+needs = ["MemoryOrder0181"]
+
+[[lean_lib]]
+name = "MemoryOrder0185"
+roots = []
+globs = ["IdealGeneration.QuadraticInjectiveAssembly"]
+needs = ["MemoryOrder0182"]
+
+[[lean_lib]]
+name = "MemoryOrder0186"
+roots = []
+globs = ["IdealGeneration.QuadraticMiddleInjectivity"]
+needs = ["MemoryOrder0183"]
+
+[[lean_lib]]
+name = "MemoryOrder0187"
+roots = []
+globs = ["IdealGeneration.QuadraticUntouchedBlockWitness"]
+needs = ["MemoryOrder0184"]
+
+[[lean_lib]]
+name = "MemoryOrder0188"
+roots = []
+globs = ["IdealGeneration.QuadraticVariableTransport"]
+needs = ["MemoryOrder0185"]
+
+[[lean_lib]]
+name = "MemoryOrder0189"
+roots = []
+globs = ["IdealGeneration.Rank"]
+needs = ["MemoryOrder0186"]
+
+[[lean_lib]]
+name = "MemoryOrder0190"
+roots = []
+globs = ["IdealGeneration.RankOpen"]
+needs = ["MemoryOrder0187"]
+
+[[lean_lib]]
+name = "MemoryOrder0191"
+roots = []
+globs = ["IdealGeneration.DeformationMatrix"]
+needs = ["MemoryOrder0188"]
+
+[[lean_lib]]
+name = "MemoryOrder0192"
+roots = []
+globs = ["IdealGeneration.DeformationGeneral"]
+needs = ["MemoryOrder0189"]
+
+[[lean_lib]]
+name = "MemoryOrder0193"
+roots = []
+globs = ["IdealGeneration.DifferentialLine"]
+needs = ["MemoryOrder0190"]
+
+[[lean_lib]]
+name = "MemoryOrder0194"
+roots = []
+globs = ["IdealGeneration.DifferentialPoint"]
+needs = ["MemoryOrder0191"]
+
+[[lean_lib]]
+name = "MemoryOrder0195"
+roots = []
+globs = ["IdealGeneration.DifferentialResponse"]
+needs = ["MemoryOrder0192"]
+
+[[lean_lib]]
+name = "MemoryOrder0196"
+roots = []
+globs = ["IdealGeneration.DifferentialSurjectivity"]
+needs = ["MemoryOrder0193"]
+
+[[lean_lib]]
+name = "MemoryOrder0197"
+roots = []
+globs = ["IdealGeneration.QuadraticLayerHeightOpen"]
+needs = ["MemoryOrder0194"]
+
+[[lean_lib]]
+name = "MemoryOrder0198"
+roots = []
+globs = ["IdealGeneration.QuadraticCoreHeightPolynomial"]
+needs = ["MemoryOrder0195"]
+
+[[lean_lib]]
+name = "MemoryOrder0199"
+roots = []
+globs = ["IdealGeneration.QuadraticUntouchedHeightLink"]
+needs = ["MemoryOrder0196"]
+
+[[lean_lib]]
+name = "MemoryOrder0200"
+roots = []
+globs = ["IdealGeneration.QuadraticFlagFamily"]
+needs = ["MemoryOrder0197"]
+
+[[lean_lib]]
+name = "MemoryOrder0201"
+roots = []
+globs = ["IdealGeneration.QuadraticFixedHeights"]
+needs = ["MemoryOrder0198"]
+
+[[lean_lib]]
+name = "MemoryOrder0202"
+roots = []
+globs = ["IdealGeneration.RepresentativeNormalization"]
+needs = ["MemoryOrder0199"]
+
+[[lean_lib]]
+name = "MemoryOrder0203"
+roots = []
+globs = ["IdealGeneration.HomogeneousTraceOpen"]
+needs = ["MemoryOrder0200"]
+
+[[lean_lib]]
+name = "MemoryOrder0204"
+roots = []
+globs = ["IdealGeneration.Response"]
+needs = ["MemoryOrder0201"]
+
+[[lean_lib]]
+name = "MemoryOrder0205"
+roots = []
+globs = ["IdealGeneration.ResponseSelection"]
+needs = ["MemoryOrder0202"]
+
+[[lean_lib]]
+name = "MemoryOrder0206"
+roots = []
+globs = ["IdealGeneration.ScalarInterpolation"]
+needs = ["MemoryOrder0203"]
+
+[[lean_lib]]
+name = "MemoryOrder0207"
+roots = []
+globs = ["IdealGeneration.Binary"]
+needs = ["MemoryOrder0204"]
+
+[[lean_lib]]
+name = "MemoryOrder0208"
+roots = []
+globs = ["IdealGeneration.MainStatement"]
+needs = ["MemoryOrder0205"]
+
+[[lean_lib]]
+name = "MemoryOrder0209"
+roots = []
+globs = ["IdealGeneration.BaseCase"]
+needs = ["MemoryOrder0206"]
+
+[[lean_lib]]
+name = "MemoryOrder0210"
+roots = []
+globs = ["IdealGeneration.MultiplicationOpen"]
+needs = ["MemoryOrder0207"]
+
+[[lean_lib]]
+name = "MemoryOrder0211"
+roots = []
+globs = ["IdealGeneration.AffineEulerTransport"]
+needs = ["MemoryOrder0208"]
+
+[[lean_lib]]
+name = "MemoryOrder0212"
+roots = []
+globs = ["IdealGeneration.CriticalReduction"]
+needs = ["MemoryOrder0209"]
+
+[[lean_lib]]
+name = "MemoryOrder0213"
+roots = []
+globs = ["IdealGeneration.PointAvoidance"]
+needs = ["MemoryOrder0210"]
+
+[[lean_lib]]
+name = "MemoryOrder0214"
+roots = []
+globs = ["IdealGeneration.ConeParameterSpace"]
+needs = ["MemoryOrder0211"]
+
+[[lean_lib]]
+name = "MemoryOrder0215"
+roots = []
+globs = ["IdealGeneration.CubicParameterCompatibility"]
+needs = ["MemoryOrder0212"]
+
+[[lean_lib]]
+name = "MemoryOrder0216"
+roots = []
+globs = ["IdealGeneration.CubicIntegerSpecialization"]
+needs = ["MemoryOrder0213"]
+
+[[lean_lib]]
+name = "MemoryOrder0217"
+roots = []
+globs = ["IdealGeneration.CubicSingleSlopeGuard"]
+needs = ["MemoryOrder0214"]
+
+[[lean_lib]]
+name = "MemoryOrder0218"
+roots = []
+globs = ["IdealGeneration.FixedPartialTrace"]
+needs = ["MemoryOrder0215"]
+
+[[lean_lib]]
+name = "MemoryOrder0219"
+roots = []
+globs = ["IdealGeneration.FractionalTraceChoice"]
+needs = ["MemoryOrder0216"]
+
+[[lean_lib]]
+name = "MemoryOrder0220"
+roots = []
+globs = ["IdealGeneration.PointDimensions"]
+needs = ["MemoryOrder0217"]
+
+[[lean_lib]]
+name = "MemoryOrder0221"
+roots = []
+globs = ["IdealGeneration.CriticalOpen"]
+needs = ["MemoryOrder0218"]
+
+[[lean_lib]]
+name = "MemoryOrder0222"
+roots = []
+globs = ["IdealGeneration.EulerMaximalRank"]
+needs = ["MemoryOrder0219"]
+
+[[lean_lib]]
+name = "MemoryOrder0223"
+roots = []
+globs = ["IdealGeneration.FixedPointEulerWitness"]
+needs = ["MemoryOrder0220"]
+
+[[lean_lib]]
+name = "MemoryOrder0224"
+roots = []
+globs = ["IdealGeneration.FixedPartialTraceLemma"]
+needs = ["MemoryOrder0221"]
+
+[[lean_lib]]
+name = "MemoryOrder0225"
+roots = []
+globs = ["IdealGeneration.Generation"]
+needs = ["MemoryOrder0222"]
+
+[[lean_lib]]
+name = "MemoryOrder0226"
+roots = []
+globs = ["IdealGeneration.BoundedGeneration"]
+needs = ["MemoryOrder0223"]
+
+[[lean_lib]]
+name = "MemoryOrder0227"
+roots = []
+globs = ["IdealGeneration.GeneratorDimensions"]
+needs = ["MemoryOrder0224"]
+
+[[lean_lib]]
+name = "MemoryOrder0228"
+roots = []
+globs = ["IdealGeneration.MinimalGenerators"]
+needs = ["MemoryOrder0225"]
+
+[[lean_lib]]
+name = "MemoryOrder0229"
+roots = []
+globs = ["IdealGeneration.PointTensorMultiplication"]
+needs = ["MemoryOrder0226"]
+
+[[lean_lib]]
+name = "MemoryOrder0230"
+roots = []
+globs = ["IdealGeneration.QuadraticCoreMultiplication"]
+needs = ["MemoryOrder0227"]
+
+[[lean_lib]]
+name = "MemoryOrder0231"
+roots = []
+globs = ["IdealGeneration.QuadraticCoreMiddle"]
+needs = ["MemoryOrder0228"]
+
+[[lean_lib]]
+name = "MemoryOrder0232"
+roots = []
+globs = ["IdealGeneration.QuadraticCoreProbeEvaluation"]
+needs = ["MemoryOrder0229"]
+
+[[lean_lib]]
+name = "MemoryOrder0233"
+roots = []
+globs = ["IdealGeneration.QuadraticCoreRestrictionData"]
+needs = ["MemoryOrder0230"]
+
+[[lean_lib]]
+name = "MemoryOrder0234"
+roots = []
+globs = ["IdealGeneration.QuadraticCoreFamily"]
+needs = ["MemoryOrder0231"]
+
+[[lean_lib]]
+name = "MemoryOrder0235"
+roots = []
+globs = ["IdealGeneration.QuadraticCoreRestriction"]
+needs = ["MemoryOrder0232"]
+
+[[lean_lib]]
+name = "MemoryOrder0236"
+roots = []
+globs = ["IdealGeneration.QuadraticCoreProjectionRestriction"]
+needs = ["MemoryOrder0233"]
+
+[[lean_lib]]
+name = "MemoryOrder0237"
+roots = []
+globs = ["IdealGeneration.QuadraticInjectiveCoreBridge"]
+needs = ["MemoryOrder0234"]
+
+[[lean_lib]]
+name = "MemoryOrder0238"
+roots = []
+globs = ["IdealGeneration.QuadraticJointProbeEvaluation"]
+needs = ["MemoryOrder0235"]
+
+[[lean_lib]]
+name = "MemoryOrder0239"
+roots = []
+globs = ["IdealGeneration.QuadraticTracePostulation"]
+needs = ["MemoryOrder0236"]
+
+[[lean_lib]]
+name = "MemoryOrder0240"
+roots = []
+globs = ["IdealGeneration.QuadraticTraceRepresentation"]
+needs = ["MemoryOrder0237"]
+
+[[lean_lib]]
+name = "MemoryOrder0241"
+roots = []
+globs = ["IdealGeneration.QuadraticMiddleKernelCokernel"]
+needs = ["MemoryOrder0238"]
+
+[[lean_lib]]
+name = "MemoryOrder0242"
+roots = []
+globs = ["IdealGeneration.QuadraticTruncatedKernel"]
+needs = ["MemoryOrder0239"]
+
+[[lean_lib]]
+name = "MemoryOrder0243"
+roots = []
+globs = ["IdealGeneration.ScalarProductTrace"]
+needs = ["MemoryOrder0240"]
+
+[[lean_lib]]
+name = "MemoryOrder0244"
+roots = []
+globs = ["IdealGeneration.FractionalNonvanishing"]
+needs = ["MemoryOrder0241"]
+
+[[lean_lib]]
+name = "MemoryOrder0245"
+roots = []
+globs = ["IdealGeneration.ScalarTraceReduction"]
+needs = ["MemoryOrder0242"]
+
+[[lean_lib]]
+name = "MemoryOrder0246"
+roots = []
+globs = ["IdealGeneration.ScalarTraceDimensions"]
+needs = ["MemoryOrder0243"]
+
+[[lean_lib]]
+name = "MemoryOrder0247"
+roots = []
+globs = ["IdealGeneration.SelectedKernelChart"]
+needs = ["MemoryOrder0244"]
+
+[[lean_lib]]
+name = "MemoryOrder0248"
+roots = []
+globs = ["IdealGeneration.ShearAvoidance"]
+needs = ["MemoryOrder0245"]
+
+[[lean_lib]]
+name = "MemoryOrder0249"
+roots = []
+globs = ["IdealGeneration.ProjectiveTransport"]
+needs = ["MemoryOrder0246"]
+
+[[lean_lib]]
+name = "MemoryOrder0250"
+roots = []
+globs = ["IdealGeneration.RepresentativeGeneric"]
+needs = ["MemoryOrder0247"]
+
+[[lean_lib]]
+name = "MemoryOrder0251"
+roots = []
+globs = ["IdealGeneration.ConeChart"]
+needs = ["MemoryOrder0248"]
+
+[[lean_lib]]
+name = "MemoryOrder0252"
+roots = []
+globs = ["IdealGeneration.SubspaceInterpolation"]
+needs = ["MemoryOrder0249"]
+
+[[lean_lib]]
+name = "MemoryOrder0253"
+roots = []
+globs = ["IdealGeneration.FractionalCompatibility"]
+needs = ["MemoryOrder0250"]
+
+[[lean_lib]]
+name = "MemoryOrder0254"
+roots = []
+globs = ["IdealGeneration.FractionalScalarCancellation"]
+needs = ["MemoryOrder0251"]
+
+[[lean_lib]]
+name = "MemoryOrder0255"
+roots = []
+globs = ["IdealGeneration.FractionalTopMove"]
+needs = ["MemoryOrder0252"]
+
+[[lean_lib]]
+name = "MemoryOrder0256"
+roots = []
+globs = ["IdealGeneration.ScalarTransversality"]
+needs = ["MemoryOrder0253"]
+
+[[lean_lib]]
+name = "MemoryOrder0257"
+roots = []
+globs = ["IdealGeneration.PolynomialTransversality"]
+needs = ["MemoryOrder0254"]
+
+[[lean_lib]]
+name = "MemoryOrder0258"
+roots = []
+globs = ["IdealGeneration.OrdinaryHyperplaneGeneric"]
+needs = ["MemoryOrder0255"]
+
+[[lean_lib]]
+name = "MemoryOrder0259"
+roots = []
+globs = ["IdealGeneration.IntegralHyperplane"]
+needs = ["MemoryOrder0256"]
+
+[[lean_lib]]
+name = "MemoryOrder0260"
+roots = []
+globs = ["IdealGeneration.HigherIntegral"]
+needs = ["MemoryOrder0257"]
+
+[[lean_lib]]
+name = "MemoryOrder0261"
+roots = []
+globs = ["IdealGeneration.HigherFractionalBounds"]
+needs = ["MemoryOrder0258"]
+
+[[lean_lib]]
+name = "MemoryOrder0262"
+roots = []
+globs = ["IdealGeneration.FourVariableFractional"]
+needs = ["MemoryOrder0259"]
+
+[[lean_lib]]
+name = "MemoryOrder0263"
+roots = []
+globs = ["IdealGeneration.FractionalResidualBridge"]
+needs = ["MemoryOrder0260"]
+
+[[lean_lib]]
+name = "MemoryOrder0264"
+roots = []
+globs = ["IdealGeneration.FractionalResidualNatural"]
+needs = ["MemoryOrder0261"]
+
+[[lean_lib]]
+name = "MemoryOrder0265"
+roots = []
+globs = ["IdealGeneration.PlaneCase"]
+needs = ["MemoryOrder0262"]
+
+[[lean_lib]]
+name = "MemoryOrder0266"
+roots = []
+globs = ["IdealGeneration.ExceptionalQuintic"]
+needs = ["MemoryOrder0263"]
+
+[[lean_lib]]
+name = "MemoryOrder0267"
+roots = []
+globs = ["IdealGeneration.QuarticRange"]
+needs = ["MemoryOrder0264"]
+
+[[lean_lib]]
+name = "MemoryOrder0268"
+roots = []
+globs = ["IdealGeneration.ScalarSelection"]
+needs = ["MemoryOrder0265"]
+
+[[lean_lib]]
+name = "MemoryOrder0269"
+roots = []
+globs = ["IdealGeneration.FractionalResidual"]
+needs = ["MemoryOrder0266"]
+
+[[lean_lib]]
+name = "MemoryOrder0270"
+roots = []
+globs = ["IdealGeneration.FractionalInner"]
+needs = ["MemoryOrder0267"]
+
+[[lean_lib]]
+name = "MemoryOrder0271"
+roots = []
+globs = ["IdealGeneration.FractionalRegroup"]
+needs = ["MemoryOrder0268"]
+
+[[lean_lib]]
+name = "MemoryOrder0272"
+roots = []
+globs = ["IdealGeneration.FractionalRegroupCoordinates"]
+needs = ["MemoryOrder0269"]
+
+[[lean_lib]]
+name = "MemoryOrder0273"
+roots = []
+globs = ["IdealGeneration.FractionalHyperplane"]
+needs = ["MemoryOrder0270"]
+
+[[lean_lib]]
+name = "MemoryOrder0274"
+roots = []
+globs = ["IdealGeneration.FractionalInitialTrace"]
+needs = ["MemoryOrder0271"]
+
+[[lean_lib]]
+name = "MemoryOrder0275"
+roots = []
+globs = ["IdealGeneration.FractionalOuterCancellation"]
+needs = ["MemoryOrder0272"]
+
+[[lean_lib]]
+name = "MemoryOrder0276"
+roots = []
+globs = ["IdealGeneration.FractionalOuterResidual"]
+needs = ["MemoryOrder0273"]
+
+[[lean_lib]]
+name = "MemoryOrder0277"
+roots = []
+globs = ["IdealGeneration.FractionalResidualOpen"]
+needs = ["MemoryOrder0274"]
+
+[[lean_lib]]
+name = "MemoryOrder0278"
+roots = []
+globs = ["IdealGeneration.FractionalOuterTransfer"]
+needs = ["MemoryOrder0275"]
+
+[[lean_lib]]
+name = "MemoryOrder0279"
+roots = []
+globs = ["IdealGeneration.FractionalTransferCounts"]
+needs = ["MemoryOrder0276"]
+
+[[lean_lib]]
+name = "MemoryOrder0280"
+roots = []
+globs = ["IdealGeneration.FractionalHyperplaneTransfer"]
+needs = ["MemoryOrder0277"]
+
+[[lean_lib]]
+name = "MemoryOrder0281"
+roots = []
+globs = ["IdealGeneration.CubicSmallDimension"]
+needs = ["MemoryOrder0278"]
+
+[[lean_lib]]
+name = "MemoryOrder0282"
+roots = []
+globs = ["IdealGeneration.FractionalInduction"]
+needs = ["MemoryOrder0279"]
+
+[[lean_lib]]
+name = "MemoryOrder0283"
+roots = []
+globs = ["IdealGeneration.FinalInduction"]
+needs = ["MemoryOrder0280"]
+
+[[lean_lib]]
+name = "MemoryOrder0284"
+roots = []
+globs = ["IdealGeneration.TheoremOneOneStatement"]
+needs = ["MemoryOrder0281"]
+
+[[lean_lib]]
+name = "MemoryOrder0285"
+roots = []
+globs = ["IdealGeneration.TripleNormalBaseRankOpen"]
+needs = ["MemoryOrder0282"]
+
+[[lean_lib]]
+name = "MemoryOrder0286"
+roots = []
+globs = ["IdealGeneration.TripleNormalConic"]
+needs = ["MemoryOrder0283"]
+
+[[lean_lib]]
+name = "MemoryOrder0287"
+roots = []
+globs = ["IdealGeneration.TripleNormalBaseLift"]
+needs = ["MemoryOrder0284"]
+
+[[lean_lib]]
+name = "MemoryOrder0288"
+roots = []
+globs = ["IdealGeneration.TripleNormalChordOpen"]
+needs = ["MemoryOrder0285"]
+
+[[lean_lib]]
+name = "MemoryOrder0289"
+roots = []
+globs = ["IdealGeneration.TripleNormalChordPlane"]
+needs = ["MemoryOrder0286"]
+
+[[lean_lib]]
+name = "MemoryOrder0290"
+roots = []
+globs = ["IdealGeneration.TripleNormalDimension"]
+needs = ["MemoryOrder0287"]
+
+[[lean_lib]]
+name = "MemoryOrder0291"
+roots = []
+globs = ["IdealGeneration.TripleNormalEdgeOrder"]
+needs = ["MemoryOrder0288"]
+
+[[lean_lib]]
+name = "MemoryOrder0292"
+roots = []
+globs = ["IdealGeneration.TripleNormalBaseEdgeExpansion"]
+needs = ["MemoryOrder0289"]
+
+[[lean_lib]]
+name = "MemoryOrder0293"
+roots = []
+globs = ["IdealGeneration.TripleNormalGroupedLeadingBlock"]
+needs = ["MemoryOrder0290"]
+
+[[lean_lib]]
+name = "MemoryOrder0294"
+roots = []
+globs = ["IdealGeneration.TripleNormalEdgeCoordinates"]
+needs = ["MemoryOrder0291"]
+
+[[lean_lib]]
+name = "MemoryOrder0295"
+roots = []
+globs = ["IdealGeneration.TripleNormalGroupedThresholds"]
+needs = ["MemoryOrder0292"]
+
+[[lean_lib]]
+name = "MemoryOrder0296"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialBasisData"]
+needs = ["MemoryOrder0293"]
+
+[[lean_lib]]
+name = "MemoryOrder0297"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialCubicLUData"]
+needs = ["MemoryOrder0295", "MemoryOrder0296", "MemoryOrder0294"]
+
+[[lean_lib]]
+name = "MemoryOrder0298"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialData"]
+needs = ["MemoryOrder0297"]
+
+[[lean_lib]]
+name = "MemoryOrder0299"
+roots = []
+globs = ["IdealGeneration.TripleNormalKernel"]
+needs = ["MemoryOrder0297"]
+
+[[lean_lib]]
+name = "MemoryOrder0300"
+roots = []
+globs = ["IdealGeneration.TripleNormalKernelStages"]
+needs = ["MemoryOrder0297"]
+
+[[lean_lib]]
+name = "MemoryOrder0301"
+roots = []
+globs = ["IdealGeneration.CubicExplicitSource"]
+needs = ["MemoryOrder0298"]
+
+[[lean_lib]]
+name = "MemoryOrder0302"
+roots = []
+globs = ["IdealGeneration.CubicParameterBasis"]
+needs = ["MemoryOrder0299"]
+
+[[lean_lib]]
+name = "MemoryOrder0303"
+roots = []
+globs = ["IdealGeneration.CubicParameterRestriction"]
+needs = ["MemoryOrder0300"]
+
+[[lean_lib]]
+name = "MemoryOrder0304"
+roots = []
+globs = ["IdealGeneration.CubicMarkedBlock"]
+needs = ["MemoryOrder0301"]
+
+[[lean_lib]]
+name = "MemoryOrder0305"
+roots = []
+globs = ["IdealGeneration.CubicParameterExtensionBasis"]
+needs = ["MemoryOrder0302"]
+
+[[lean_lib]]
+name = "MemoryOrder0306"
+roots = []
+globs = ["IdealGeneration.CubicPhiLocalColumns"]
+needs = ["MemoryOrder0303"]
+
+[[lean_lib]]
+name = "MemoryOrder0307"
+roots = []
+globs = ["IdealGeneration.CubicB22Higher"]
+needs = ["MemoryOrder0304"]
+
+[[lean_lib]]
+name = "MemoryOrder0308"
+roots = []
+globs = ["IdealGeneration.CubicPhiStarColumns"]
+needs = ["MemoryOrder0305"]
+
+[[lean_lib]]
+name = "MemoryOrder0309"
+roots = []
+globs = ["IdealGeneration.CubicB11Actual"]
+needs = ["MemoryOrder0306"]
+
+[[lean_lib]]
+name = "MemoryOrder0310"
+roots = []
+globs = ["IdealGeneration.CubicB11Values"]
+needs = ["MemoryOrder0307"]
+
+[[lean_lib]]
+name = "MemoryOrder0311"
+roots = []
+globs = ["IdealGeneration.CubicB11Formula"]
+needs = ["MemoryOrder0308"]
+
+[[lean_lib]]
+name = "MemoryOrder0312"
+roots = []
+globs = ["IdealGeneration.CubicB11PoolTransport"]
+needs = ["MemoryOrder0309"]
+
+[[lean_lib]]
+name = "MemoryOrder0313"
+roots = []
+globs = ["IdealGeneration.CubicB11PoolPatch"]
+needs = ["MemoryOrder0310"]
+
+[[lean_lib]]
+name = "MemoryOrder0314"
+roots = []
+globs = ["IdealGeneration.CubicB11Split"]
+needs = ["MemoryOrder0311"]
+
+[[lean_lib]]
+name = "MemoryOrder0315"
+roots = []
+globs = ["IdealGeneration.CubicB11Prefix"]
+needs = ["MemoryOrder0312"]
+
+[[lean_lib]]
+name = "MemoryOrder0316"
+roots = []
+globs = ["IdealGeneration.CubicB4Deformation"]
+needs = ["MemoryOrder0313"]
+
+[[lean_lib]]
+name = "MemoryOrder0317"
+roots = []
+globs = ["IdealGeneration.CubicB4RankTransport"]
+needs = ["MemoryOrder0314"]
+
+[[lean_lib]]
+name = "MemoryOrder0318"
+roots = []
+globs = ["IdealGeneration.CubicB11RowIndices"]
+needs = ["MemoryOrder0315"]
+
+[[lean_lib]]
+name = "MemoryOrder0319"
+roots = []
+globs = ["IdealGeneration.CubicB22Rows"]
+needs = ["MemoryOrder0316"]
+
+[[lean_lib]]
+name = "MemoryOrder0320"
+roots = []
+globs = ["IdealGeneration.CubicB22Formulas"]
+needs = ["MemoryOrder0317"]
+
+[[lean_lib]]
+name = "MemoryOrder0321"
+roots = []
+globs = ["IdealGeneration.CubicB7Basis"]
+needs = ["MemoryOrder0318"]
+
+[[lean_lib]]
+name = "MemoryOrder0322"
+roots = []
+globs = ["IdealGeneration.CubicB7ChangedBasis"]
+needs = ["MemoryOrder0319"]
+
+[[lean_lib]]
+name = "MemoryOrder0323"
+roots = []
+globs = ["IdealGeneration.CubicB4Step"]
+needs = ["MemoryOrder0320"]
+
+[[lean_lib]]
+name = "MemoryOrder0324"
+roots = []
+globs = ["IdealGeneration.CubicB5Step"]
+needs = ["MemoryOrder0321"]
+
+[[lean_lib]]
+name = "MemoryOrder0325"
+roots = []
+globs = ["IdealGeneration.CubicB7RootData"]
+needs = ["MemoryOrder0322"]
+
+[[lean_lib]]
+name = "MemoryOrder0326"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormula"]
+needs = ["MemoryOrder0323"]
+
+[[lean_lib]]
+name = "MemoryOrder0327"
+roots = []
+globs = ["IdealGeneration.CubicB7RootDeterminant"]
+needs = ["MemoryOrder0324"]
+
+[[lean_lib]]
+name = "MemoryOrder0328"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block0Rows000"]
+needs = ["MemoryOrder0325"]
+
+[[lean_lib]]
+name = "MemoryOrder0329"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block0Rows008"]
+needs = ["MemoryOrder0326"]
+
+[[lean_lib]]
+name = "MemoryOrder0330"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block0Rows016"]
+needs = ["MemoryOrder0327"]
+
+[[lean_lib]]
+name = "MemoryOrder0331"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block0Rows024"]
+needs = ["MemoryOrder0328"]
+
+[[lean_lib]]
+name = "MemoryOrder0332"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block0Rows032"]
+needs = ["MemoryOrder0329"]
+
+[[lean_lib]]
+name = "MemoryOrder0333"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block0Rows040"]
+needs = ["MemoryOrder0330"]
+
+[[lean_lib]]
+name = "MemoryOrder0334"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block0Rows048"]
+needs = ["MemoryOrder0331"]
+
+[[lean_lib]]
+name = "MemoryOrder0335"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block0Rows056"]
+needs = ["MemoryOrder0332"]
+
+[[lean_lib]]
+name = "MemoryOrder0336"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block0Rows064"]
+needs = ["MemoryOrder0333"]
+
+[[lean_lib]]
+name = "MemoryOrder0337"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block0Rows072"]
+needs = ["MemoryOrder0334"]
+
+[[lean_lib]]
+name = "MemoryOrder0338"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block0Rows080"]
+needs = ["MemoryOrder0335"]
+
+[[lean_lib]]
+name = "MemoryOrder0339"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block1Rows000"]
+needs = ["MemoryOrder0336"]
+
+[[lean_lib]]
+name = "MemoryOrder0340"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block1Rows008"]
+needs = ["MemoryOrder0337"]
+
+[[lean_lib]]
+name = "MemoryOrder0341"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block1Rows016"]
+needs = ["MemoryOrder0338"]
+
+[[lean_lib]]
+name = "MemoryOrder0342"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block1Rows024"]
+needs = ["MemoryOrder0339"]
+
+[[lean_lib]]
+name = "MemoryOrder0343"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block1Rows032"]
+needs = ["MemoryOrder0340"]
+
+[[lean_lib]]
+name = "MemoryOrder0344"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block1Rows040"]
+needs = ["MemoryOrder0341"]
+
+[[lean_lib]]
+name = "MemoryOrder0345"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block1Rows048"]
+needs = ["MemoryOrder0342"]
+
+[[lean_lib]]
+name = "MemoryOrder0346"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block1Rows056"]
+needs = ["MemoryOrder0343"]
+
+[[lean_lib]]
+name = "MemoryOrder0347"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block1Rows064"]
+needs = ["MemoryOrder0344"]
+
+[[lean_lib]]
+name = "MemoryOrder0348"
+roots = []
+globs = ["IdealGeneration.CubicB7RootFormulaChecks.Block1Rows072"]
+needs = ["MemoryOrder0345"]
+
+[[lean_lib]]
+name = "MemoryOrder0349"
+roots = []
+globs = ["IdealGeneration.CubicB7RootComparison"]
+needs = ["MemoryOrder0346"]
+
+[[lean_lib]]
+name = "MemoryOrder0350"
+roots = []
+globs = ["IdealGeneration.CubicB7Root"]
+needs = ["MemoryOrder0347"]
+
+[[lean_lib]]
+name = "MemoryOrder0351"
+roots = []
+globs = ["IdealGeneration.CubicPairC3Actual"]
+needs = ["MemoryOrder0348"]
+
+[[lean_lib]]
+name = "MemoryOrder0352"
+roots = []
+globs = ["IdealGeneration.CubicPairC3Extension"]
+needs = ["MemoryOrder0349"]
+
+[[lean_lib]]
+name = "MemoryOrder0353"
+roots = []
+globs = ["IdealGeneration.CubicPairC3Locality"]
+needs = ["MemoryOrder0350"]
+
+[[lean_lib]]
+name = "MemoryOrder0354"
+roots = []
+globs = ["IdealGeneration.CubicPairC3LocalWitness"]
+needs = ["MemoryOrder0351"]
+
+[[lean_lib]]
+name = "MemoryOrder0355"
+roots = []
+globs = ["IdealGeneration.CubicPairC3Future"]
+needs = ["MemoryOrder0352"]
+
+[[lean_lib]]
+name = "MemoryOrder0356"
+roots = []
+globs = ["IdealGeneration.CubicPairC3FutureActual"]
+needs = ["MemoryOrder0353"]
+
+[[lean_lib]]
+name = "MemoryOrder0357"
+roots = []
+globs = ["IdealGeneration.CubicPairC3FixedSamples"]
+needs = ["MemoryOrder0354"]
+
+[[lean_lib]]
+name = "MemoryOrder0358"
+roots = []
+globs = ["IdealGeneration.CubicPairC3FutureGuard"]
+needs = ["MemoryOrder0355"]
+
+[[lean_lib]]
+name = "MemoryOrder0359"
+roots = []
+globs = ["IdealGeneration.CubicPairCoreCertificate"]
+needs = ["MemoryOrder0356"]
+
+[[lean_lib]]
+name = "MemoryOrder0360"
+roots = []
+globs = ["IdealGeneration.CubicPairCorePrefixCertificate"]
+needs = ["MemoryOrder0357"]
+
+[[lean_lib]]
+name = "MemoryOrder0361"
+roots = []
+globs = ["IdealGeneration.CubicPrimitiveExtension"]
+needs = ["MemoryOrder0358"]
+
+[[lean_lib]]
+name = "MemoryOrder0362"
+roots = []
+globs = ["IdealGeneration.TripleNormalLayerLift"]
+needs = ["MemoryOrder0359"]
+
+[[lean_lib]]
+name = "MemoryOrder0363"
+roots = []
+globs = ["IdealGeneration.TripleNormalLeadingMatrix"]
+needs = ["MemoryOrder0360"]
+
+[[lean_lib]]
+name = "MemoryOrder0364"
+roots = []
+globs = ["IdealGeneration.TripleNormalCurveEvaluation"]
+needs = ["MemoryOrder0361"]
+
+[[lean_lib]]
+name = "MemoryOrder0365"
+roots = []
+globs = ["IdealGeneration.TripleNormalGroupedInterpolation"]
+needs = ["MemoryOrder0362"]
+
+[[lean_lib]]
+name = "MemoryOrder0366"
+roots = []
+globs = ["IdealGeneration.TripleNormalOrderedChords"]
+needs = ["MemoryOrder0363"]
+
+[[lean_lib]]
+name = "MemoryOrder0367"
+roots = []
+globs = ["IdealGeneration.TripleNormalQuadraticCoordinates"]
+needs = ["MemoryOrder0364"]
+
+[[lean_lib]]
+name = "MemoryOrder0368"
+roots = []
+globs = ["IdealGeneration.TripleNormalRootMotion"]
+needs = ["MemoryOrder0365"]
+
+[[lean_lib]]
+name = "MemoryOrder0369"
+roots = []
+globs = ["IdealGeneration.TripleNormalRootBlock"]
+needs = ["MemoryOrder0366"]
+
+[[lean_lib]]
+name = "MemoryOrder0370"
+roots = []
+globs = ["IdealGeneration.TripleNormalNormalizedEdgeColumns"]
+needs = ["MemoryOrder0367"]
+
+[[lean_lib]]
+name = "MemoryOrder0371"
+roots = []
+globs = ["IdealGeneration.TripleNormalBaseColumns"]
+needs = ["MemoryOrder0368"]
+
+[[lean_lib]]
+name = "MemoryOrder0372"
+roots = []
+globs = ["IdealGeneration.TripleNormalScalarExtension"]
+needs = ["MemoryOrder0369"]
+
+[[lean_lib]]
+name = "MemoryOrder0373"
+roots = []
+globs = ["IdealGeneration.TripleNormalSupportedExtension"]
+needs = ["MemoryOrder0370"]
+
+[[lean_lib]]
+name = "MemoryOrder0374"
+roots = []
+globs = ["IdealGeneration.TripleNormalExtensionRestriction"]
+needs = ["MemoryOrder0371"]
+
+[[lean_lib]]
+name = "MemoryOrder0375"
+roots = []
+globs = ["IdealGeneration.TripleNormalLayerCompatibility"]
+needs = ["MemoryOrder0372"]
+
+[[lean_lib]]
+name = "MemoryOrder0376"
+roots = []
+globs = ["IdealGeneration.TripleNormalNewLayerBlock"]
+needs = ["MemoryOrder0373"]
+
+[[lean_lib]]
+name = "MemoryOrder0377"
+roots = []
+globs = ["IdealGeneration.TwoGroupLinearCore"]
+needs = ["MemoryOrder0374"]
+
+[[lean_lib]]
+name = "MemoryOrder0378"
+roots = []
+globs = ["IdealGeneration.AttachedTrace"]
+needs = ["MemoryOrder0375"]
+
+[[lean_lib]]
+name = "MemoryOrder0379"
+roots = []
+globs = ["IdealGeneration.ConstrainedRankOpen"]
+needs = ["MemoryOrder0376"]
+
+[[lean_lib]]
+name = "MemoryOrder0380"
+roots = []
+globs = ["IdealGeneration.ConeMiddleFamily"]
+needs = ["MemoryOrder0377"]
+
+[[lean_lib]]
+name = "MemoryOrder0381"
+roots = []
+globs = ["IdealGeneration.ConeMiddleOpen"]
+needs = ["MemoryOrder0378"]
+
+[[lean_lib]]
+name = "MemoryOrder0382"
+roots = []
+globs = ["IdealGeneration.ConeA1Bridge"]
+needs = ["MemoryOrder0379"]
+
+[[lean_lib]]
+name = "MemoryOrder0383"
+roots = []
+globs = ["IdealGeneration.ConeMonomialChart"]
+needs = ["MemoryOrder0380"]
+
+[[lean_lib]]
+name = "MemoryOrder0384"
+roots = []
+globs = ["IdealGeneration.ConeMiddleMatrix"]
+needs = ["MemoryOrder0381"]
+
+[[lean_lib]]
+name = "MemoryOrder0385"
+roots = []
+globs = ["IdealGeneration.ConeJointMatrix"]
+needs = ["MemoryOrder0382"]
+
+[[lean_lib]]
+name = "MemoryOrder0386"
+roots = []
+globs = ["IdealGeneration.ConeKernelMatrixBridge"]
+needs = ["MemoryOrder0383"]
+
+[[lean_lib]]
+name = "MemoryOrder0387"
+roots = []
+globs = ["IdealGeneration.ConeMiddleLookup"]
+needs = ["MemoryOrder0384"]
+
+[[lean_lib]]
+name = "MemoryOrder0388"
+roots = []
+globs = ["IdealGeneration.ConeLookupGuards"]
+needs = ["MemoryOrder0385"]
+
+[[lean_lib]]
+name = "MemoryOrder0389"
+roots = []
+globs = ["IdealGeneration.CubicConeWitness"]
+needs = ["MemoryOrder0386"]
+
+[[lean_lib]]
+name = "MemoryOrder0390"
+roots = []
+globs = ["IdealGeneration.CubicEvenTransfer"]
+needs = ["MemoryOrder0387"]
+
+[[lean_lib]]
+name = "MemoryOrder0391"
+roots = []
+globs = ["IdealGeneration.CubicDimensionInduction"]
+needs = ["MemoryOrder0388"]
+
+[[lean_lib]]
+name = "MemoryOrder0392"
+roots = []
+globs = ["IdealGeneration.CubicInitialPoints"]
+needs = ["MemoryOrder0389"]
+
+[[lean_lib]]
+name = "MemoryOrder0393"
+roots = []
+globs = ["IdealGeneration.CubicInitialGeometry"]
+needs = ["MemoryOrder0390"]
+
+[[lean_lib]]
+name = "MemoryOrder0394"
+roots = []
+globs = ["IdealGeneration.CubicInitialKernelData"]
+needs = ["MemoryOrder0391"]
+
+[[lean_lib]]
+name = "MemoryOrder0395"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleData"]
+needs = ["MemoryOrder0392"]
+
+[[lean_lib]]
+name = "MemoryOrder0396"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleFacts"]
+needs = ["MemoryOrder0393"]
+
+[[lean_lib]]
+name = "MemoryOrder0397"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks000"]
+needs = ["MemoryOrder0394"]
+
+[[lean_lib]]
+name = "MemoryOrder0398"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks032"]
+needs = ["MemoryOrder0395"]
+
+[[lean_lib]]
+name = "MemoryOrder0399"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks064"]
+needs = ["MemoryOrder0396"]
+
+[[lean_lib]]
+name = "MemoryOrder0400"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks096"]
+needs = ["MemoryOrder0397"]
+
+[[lean_lib]]
+name = "MemoryOrder0401"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks128"]
+needs = ["MemoryOrder0398"]
+
+[[lean_lib]]
+name = "MemoryOrder0402"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks160"]
+needs = ["MemoryOrder0399"]
+
+[[lean_lib]]
+name = "MemoryOrder0403"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks192"]
+needs = ["MemoryOrder0400"]
+
+[[lean_lib]]
+name = "MemoryOrder0404"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks224"]
+needs = ["MemoryOrder0401"]
+
+[[lean_lib]]
+name = "MemoryOrder0405"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks256"]
+needs = ["MemoryOrder0402"]
+
+[[lean_lib]]
+name = "MemoryOrder0406"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks288"]
+needs = ["MemoryOrder0403"]
+
+[[lean_lib]]
+name = "MemoryOrder0407"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks320"]
+needs = ["MemoryOrder0404"]
+
+[[lean_lib]]
+name = "MemoryOrder0408"
+roots = []
+globs = ["IdealGeneration.CubicInitialNormalPackedData"]
+needs = ["MemoryOrder0407", "MemoryOrder0405", "MemoryOrder0406"]
+
+[[lean_lib]]
+name = "MemoryOrder0409"
+roots = []
+globs = ["IdealGeneration.CubicInitialResidueEvaluation"]
+needs = ["MemoryOrder0408"]
+
+[[lean_lib]]
+name = "MemoryOrder0410"
+roots = []
+globs = ["IdealGeneration.CubicExtendedCert.Base"]
+needs = ["MemoryOrder0408"]
+
+[[lean_lib]]
+name = "MemoryOrder0411"
+roots = []
+globs = ["IdealGeneration.CubicExtendedCert.Data"]
+needs = ["MemoryOrder0408"]
+
+[[lean_lib]]
+name = "MemoryOrder0412"
+roots = []
+globs = ["IdealGeneration.CubicExtendedCert.Checks000"]
+needs = ["MemoryOrder0409"]
+
+[[lean_lib]]
+name = "MemoryOrder0413"
+roots = []
+globs = ["IdealGeneration.CubicExtendedCert.Checks021"]
+needs = ["MemoryOrder0410"]
+
+[[lean_lib]]
+name = "MemoryOrder0414"
+roots = []
+globs = ["IdealGeneration.CubicExtendedCert.Checks042"]
+needs = ["MemoryOrder0411"]
+
+[[lean_lib]]
+name = "MemoryOrder0415"
+roots = []
+globs = ["IdealGeneration.CubicExtendedCert.Checks063"]
+needs = ["MemoryOrder0412"]
+
+[[lean_lib]]
+name = "MemoryOrder0416"
+roots = []
+globs = ["IdealGeneration.CubicExtendedCert.Checks084"]
+needs = ["MemoryOrder0413"]
+
+[[lean_lib]]
+name = "MemoryOrder0417"
+roots = []
+globs = ["IdealGeneration.CubicExtendedCert.Checks105"]
+needs = ["MemoryOrder0414"]
+
+[[lean_lib]]
+name = "MemoryOrder0418"
+roots = []
+globs = ["IdealGeneration.CubicExtendedCert.Checks126"]
+needs = ["MemoryOrder0415"]
+
+[[lean_lib]]
+name = "MemoryOrder0419"
+roots = []
+globs = ["IdealGeneration.CubicExtendedEvaluation"]
+needs = ["MemoryOrder0416"]
+
+[[lean_lib]]
+name = "MemoryOrder0420"
+roots = []
+globs = ["IdealGeneration.CubicExtendedGeometry"]
+needs = ["MemoryOrder0417"]
+
+[[lean_lib]]
+name = "MemoryOrder0421"
+roots = []
+globs = ["IdealGeneration.CubicInitialNormalEvaluationFacts"]
+needs = ["MemoryOrder0418"]
+
+[[lean_lib]]
+name = "MemoryOrder0422"
+roots = []
+globs = ["IdealGeneration.CubicInitialNormalChecks000"]
+needs = ["MemoryOrder0419"]
+
+[[lean_lib]]
+name = "MemoryOrder0423"
+roots = []
+globs = ["IdealGeneration.CubicInitialNormalChecks024"]
+needs = ["MemoryOrder0420"]
+
+[[lean_lib]]
+name = "MemoryOrder0424"
+roots = []
+globs = ["IdealGeneration.CubicInitialNormalChecks048"]
+needs = ["MemoryOrder0421"]
+
+[[lean_lib]]
+name = "MemoryOrder0425"
+roots = []
+globs = ["IdealGeneration.CubicInitialNormalChecks072"]
+needs = ["MemoryOrder0422"]
+
+[[lean_lib]]
+name = "MemoryOrder0426"
+roots = []
+globs = ["IdealGeneration.CubicInitialNormalChecks096"]
+needs = ["MemoryOrder0423"]
+
+[[lean_lib]]
+name = "MemoryOrder0427"
+roots = []
+globs = ["IdealGeneration.CubicInitialNormalChecks120"]
+needs = ["MemoryOrder0424"]
+
+[[lean_lib]]
+name = "MemoryOrder0428"
+roots = []
+globs = ["IdealGeneration.CubicInitialNormalEvaluationCertificate"]
+needs = ["MemoryOrder0425"]
+
+[[lean_lib]]
+name = "MemoryOrder0429"
+roots = []
+globs = ["IdealGeneration.CubicInitialSparseComparison"]
+needs = ["MemoryOrder0426"]
+
+[[lean_lib]]
+name = "MemoryOrder0430"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks352"]
+needs = ["MemoryOrder0427"]
+
+[[lean_lib]]
+name = "MemoryOrder0431"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks384"]
+needs = ["MemoryOrder0428"]
+
+[[lean_lib]]
+name = "MemoryOrder0432"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks416"]
+needs = ["MemoryOrder0429"]
+
+[[lean_lib]]
+name = "MemoryOrder0433"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks448"]
+needs = ["MemoryOrder0430"]
+
+[[lean_lib]]
+name = "MemoryOrder0434"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks480"]
+needs = ["MemoryOrder0431"]
+
+[[lean_lib]]
+name = "MemoryOrder0435"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks512"]
+needs = ["MemoryOrder0432"]
+
+[[lean_lib]]
+name = "MemoryOrder0436"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks544"]
+needs = ["MemoryOrder0433"]
+
+[[lean_lib]]
+name = "MemoryOrder0437"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks576"]
+needs = ["MemoryOrder0434"]
+
+[[lean_lib]]
+name = "MemoryOrder0438"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks608"]
+needs = ["MemoryOrder0435"]
+
+[[lean_lib]]
+name = "MemoryOrder0439"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleChecks640"]
+needs = ["MemoryOrder0436"]
+
+[[lean_lib]]
+name = "MemoryOrder0440"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleComparison"]
+needs = ["MemoryOrder0437"]
+
+[[lean_lib]]
+name = "MemoryOrder0441"
+roots = []
+globs = ["IdealGeneration.CubicInitialStructuredData"]
+needs = ["MemoryOrder0438"]
+
+[[lean_lib]]
+name = "MemoryOrder0442"
+roots = []
+globs = ["IdealGeneration.CubicInitialStructured"]
+needs = ["MemoryOrder0439"]
+
+[[lean_lib]]
+name = "MemoryOrder0443"
+roots = []
+globs = ["IdealGeneration.CubicB7RootInitialAgreement"]
+needs = ["MemoryOrder0440"]
+
+[[lean_lib]]
+name = "MemoryOrder0444"
+roots = []
+globs = ["IdealGeneration.CubicB6Pool"]
+needs = ["MemoryOrder0441"]
+
+[[lean_lib]]
+name = "MemoryOrder0445"
+roots = []
+globs = ["IdealGeneration.CubicB6Recurrence"]
+needs = ["MemoryOrder0442"]
+
+[[lean_lib]]
+name = "MemoryOrder0446"
+roots = []
+globs = ["IdealGeneration.CubicB6Actual"]
+needs = ["MemoryOrder0443"]
+
+[[lean_lib]]
+name = "MemoryOrder0447"
+roots = []
+globs = ["IdealGeneration.CubicInitialTracePackedData"]
+needs = ["MemoryOrder0444", "MemoryOrder0445", "MemoryOrder0446"]
+
+[[lean_lib]]
+name = "MemoryOrder0448"
+roots = []
+globs = ["IdealGeneration.CubicInitialKernelBridge"]
+needs = ["MemoryOrder0447"]
+
+[[lean_lib]]
+name = "MemoryOrder0449"
+roots = []
+globs = ["IdealGeneration.CubicInitialMiddleLink"]
+needs = ["MemoryOrder0447"]
+
+[[lean_lib]]
+name = "MemoryOrder0450"
+roots = []
+globs = ["IdealGeneration.CubicInitialTraceEvaluationFacts"]
+needs = ["MemoryOrder0447"]
+
+[[lean_lib]]
+name = "MemoryOrder0451"
+roots = []
+globs = ["IdealGeneration.CubicInitialTraceChecks000"]
+needs = ["MemoryOrder0448"]
+
+[[lean_lib]]
+name = "MemoryOrder0452"
+roots = []
+globs = ["IdealGeneration.CubicInitialTraceChecks024"]
+needs = ["MemoryOrder0449"]
+
+[[lean_lib]]
+name = "MemoryOrder0453"
+roots = []
+globs = ["IdealGeneration.CubicInitialTraceChecks048"]
+needs = ["MemoryOrder0450"]
+
+[[lean_lib]]
+name = "MemoryOrder0454"
+roots = []
+globs = ["IdealGeneration.CubicInitialTraceChecks072"]
+needs = ["MemoryOrder0451"]
+
+[[lean_lib]]
+name = "MemoryOrder0455"
+roots = []
+globs = ["IdealGeneration.CubicInitialTraceChecks096"]
+needs = ["MemoryOrder0452"]
+
+[[lean_lib]]
+name = "MemoryOrder0456"
+roots = []
+globs = ["IdealGeneration.CubicInitialTraceChecks120"]
+needs = ["MemoryOrder0453"]
+
+[[lean_lib]]
+name = "MemoryOrder0457"
+roots = []
+globs = ["IdealGeneration.CubicInitialTraceChecks144"]
+needs = ["MemoryOrder0454"]
+
+[[lean_lib]]
+name = "MemoryOrder0458"
+roots = []
+globs = ["IdealGeneration.CubicInitialTraceChecks168"]
+needs = ["MemoryOrder0455"]
+
+[[lean_lib]]
+name = "MemoryOrder0459"
+roots = []
+globs = ["IdealGeneration.CubicInitialTraceChecks192"]
+needs = ["MemoryOrder0456"]
+
+[[lean_lib]]
+name = "MemoryOrder0460"
+roots = []
+globs = ["IdealGeneration.CubicInitialTraceChecks216"]
+needs = ["MemoryOrder0457"]
+
+[[lean_lib]]
+name = "MemoryOrder0461"
+roots = []
+globs = ["IdealGeneration.CubicInitialTraceEvaluationCertificate"]
+needs = ["MemoryOrder0458"]
+
+[[lean_lib]]
+name = "MemoryOrder0462"
+roots = []
+globs = ["IdealGeneration.CubicInitialWitness"]
+needs = ["MemoryOrder0459"]
+
+[[lean_lib]]
+name = "MemoryOrder0463"
+roots = []
+globs = ["IdealGeneration.CubicInitial"]
+needs = ["MemoryOrder0460"]
+
+[[lean_lib]]
+name = "MemoryOrder0464"
+roots = []
+globs = ["IdealGeneration.CubicSupportedBaseChange"]
+needs = ["MemoryOrder0461"]
+
+[[lean_lib]]
+name = "MemoryOrder0465"
+roots = []
+globs = ["IdealGeneration.CubicB6Terminal"]
+needs = ["MemoryOrder0462"]
+
+[[lean_lib]]
+name = "MemoryOrder0466"
+roots = []
+globs = ["IdealGeneration.CubicTenPoints"]
+needs = ["MemoryOrder0463"]
+
+[[lean_lib]]
+name = "MemoryOrder0467"
+roots = []
+globs = ["IdealGeneration.CubicTenGeometry"]
+needs = ["MemoryOrder0464"]
+
+[[lean_lib]]
+name = "MemoryOrder0468"
+roots = []
+globs = ["IdealGeneration.CubicTenEvaluationCoordinates"]
+needs = ["MemoryOrder0465"]
+
+[[lean_lib]]
+name = "MemoryOrder0469"
+roots = []
+globs = ["IdealGeneration.CubicTenEvaluationComparison"]
+needs = ["MemoryOrder0466"]
+
+[[lean_lib]]
+name = "MemoryOrder0470"
+roots = []
+globs = ["IdealGeneration.CubicTenShift"]
+needs = ["MemoryOrder0467"]
+
+[[lean_lib]]
+name = "MemoryOrder0471"
+roots = []
+globs = ["IdealGeneration.CubicTenMiddleRows"]
+needs = ["MemoryOrder0468"]
+
+[[lean_lib]]
+name = "MemoryOrder0472"
+roots = []
+globs = ["IdealGeneration.CubicTenMiddleComparison"]
+needs = ["MemoryOrder0469"]
+
+[[lean_lib]]
+name = "MemoryOrder0473"
+roots = []
+globs = ["IdealGeneration.CubicTen"]
+needs = ["MemoryOrder0470"]
+
+[[lean_lib]]
+name = "MemoryOrder0474"
+roots = []
+globs = ["IdealGeneration.QuadraticCanonicalConeConfiguration"]
+needs = ["MemoryOrder0471"]
+
+[[lean_lib]]
+name = "MemoryOrder0475"
+roots = []
+globs = ["IdealGeneration.QuadraticConeResidual"]
+needs = ["MemoryOrder0472"]
+
+[[lean_lib]]
+name = "MemoryOrder0476"
+roots = []
+globs = ["IdealGeneration.QuadraticExtendedScalarProbes"]
+needs = ["MemoryOrder0473"]
+
+[[lean_lib]]
+name = "MemoryOrder0477"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimensionCore"]
+needs = ["MemoryOrder0474"]
+
+[[lean_lib]]
+name = "MemoryOrder0478"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimensionFive"]
+needs = ["MemoryOrder0475"]
+
+[[lean_lib]]
+name = "MemoryOrder0479"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimensionFour"]
+needs = ["MemoryOrder0476"]
+
+[[lean_lib]]
+name = "MemoryOrder0480"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimensionNine"]
+needs = ["MemoryOrder0478", "MemoryOrder0479", "MemoryOrder0477"]
+
+[[lean_lib]]
+name = "MemoryOrder0481"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimensionSix"]
+needs = ["MemoryOrder0480"]
+
+[[lean_lib]]
+name = "MemoryOrder0482"
+roots = []
+globs = ["IdealGeneration.QuadraticInduction"]
+needs = ["MemoryOrder0480"]
+
+[[lean_lib]]
+name = "MemoryOrder0483"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimensionTwelveData"]
+needs = ["MemoryOrder0482", "MemoryOrder0480", "MemoryOrder0481"]
+
+# The N12 row certificates use two waves of three parallel modules.
+[[lean_lib]]
+name = "MemoryOrder0604"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimensionTwelveChecks000"]
+needs = ["MemoryOrder0483"]
+
+[[lean_lib]]
+name = "MemoryOrder0605"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimensionTwelveChecks096"]
+needs = ["MemoryOrder0483"]
+
+[[lean_lib]]
+name = "MemoryOrder0606"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimensionTwelveChecks192"]
+needs = ["MemoryOrder0483"]
+
+[[lean_lib]]
+name = "MemoryOrder0607"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimensionTwelveChecks288"]
+needs = ["MemoryOrder0604"]
+
+[[lean_lib]]
+name = "MemoryOrder0608"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimensionTwelveChecks384"]
+needs = ["MemoryOrder0605"]
+
+[[lean_lib]]
+name = "MemoryOrder0609"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimensionTwelveChecks480"]
+needs = ["MemoryOrder0606"]
+
+[[lean_lib]]
+name = "MemoryOrder0484"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimensionTwelve"]
+needs = ["MemoryOrder0607", "MemoryOrder0608", "MemoryOrder0609"]
+
+# The N12 proof also occupies all three lanes because of its measured memory use.
+[[lean_lib]]
+name = "MemoryOrder0485"
+roots = []
+globs = ["IdealGeneration.QuadraticLowDimension"]
+needs = ["MemoryOrder0484"]
+
+[[lean_lib]]
+name = "MemoryOrder0486"
+roots = []
+globs = ["IdealGeneration.QuadraticMiddleRank"]
+needs = ["MemoryOrder0484"]
+
+[[lean_lib]]
+name = "MemoryOrder0487"
+roots = []
+globs = ["IdealGeneration.QuadraticResidualCoordinates"]
+needs = ["MemoryOrder0484"]
+
+[[lean_lib]]
+name = "MemoryOrder0488"
+roots = []
+globs = ["IdealGeneration.QuadraticMiddleEndpoint"]
+needs = ["MemoryOrder0485"]
+
+[[lean_lib]]
+name = "MemoryOrder0489"
+roots = []
+globs = ["IdealGeneration.QuadraticMiddleExtendedProbes"]
+needs = ["MemoryOrder0486"]
+
+[[lean_lib]]
+name = "MemoryOrder0490"
+roots = []
+globs = ["IdealGeneration.QuadraticMiddleExtendedWitness"]
+needs = ["MemoryOrder0487"]
+
+[[lean_lib]]
+name = "MemoryOrder0491"
+roots = []
+globs = ["IdealGeneration.QuadraticTruncatedCone"]
+needs = ["MemoryOrder0488"]
+
+[[lean_lib]]
+name = "MemoryOrder0492"
+roots = []
+globs = ["IdealGeneration.QuadraticTruncatedEndpoint"]
+needs = ["MemoryOrder0489"]
+
+[[lean_lib]]
+name = "MemoryOrder0493"
+roots = []
+globs = ["IdealGeneration.QuadraticEndpointA1"]
+needs = ["MemoryOrder0490"]
+
+[[lean_lib]]
+name = "MemoryOrder0494"
+roots = []
+globs = ["IdealGeneration.QuadraticThroughEleven"]
+needs = ["MemoryOrder0491"]
+
+[[lean_lib]]
+name = "MemoryOrder0495"
+roots = []
+globs = ["IdealGeneration.TripleNormalElimination"]
+needs = ["MemoryOrder0492"]
+
+[[lean_lib]]
+name = "MemoryOrder0496"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialCubicMatrix"]
+needs = ["MemoryOrder0493"]
+
+[[lean_lib]]
+name = "MemoryOrder0497"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialCubicSlots"]
+needs = ["MemoryOrder0494"]
+
+[[lean_lib]]
+name = "MemoryOrder0498"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialCubicTarget"]
+needs = ["MemoryOrder0495"]
+
+[[lean_lib]]
+name = "MemoryOrder0499"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialCubicChecks"]
+needs = ["MemoryOrder0496"]
+
+[[lean_lib]]
+name = "MemoryOrder0500"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialCubicCertificate"]
+needs = ["MemoryOrder0497"]
+
+[[lean_lib]]
+name = "MemoryOrder0501"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialEvaluationCore"]
+needs = ["MemoryOrder0498"]
+
+[[lean_lib]]
+name = "MemoryOrder0502"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialEvaluation"]
+needs = ["MemoryOrder0499"]
+
+[[lean_lib]]
+name = "MemoryOrder0503"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialWitness"]
+needs = ["MemoryOrder0500"]
+
+[[lean_lib]]
+name = "MemoryOrder0504"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialCertified"]
+needs = ["MemoryOrder0501"]
+
+[[lean_lib]]
+name = "MemoryOrder0505"
+roots = []
+globs = ["IdealGeneration.TripleNormalNormalExtension"]
+needs = ["MemoryOrder0502"]
+
+[[lean_lib]]
+name = "MemoryOrder0506"
+roots = []
+globs = ["IdealGeneration.TripleNormalQuadraticTransfer"]
+needs = ["MemoryOrder0503"]
+
+[[lean_lib]]
+name = "MemoryOrder0507"
+roots = []
+globs = ["IdealGeneration.QuadraticTwoNormalInduction"]
+needs = ["MemoryOrder0504"]
+
+[[lean_lib]]
+name = "MemoryOrder0508"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialConsequences"]
+needs = ["MemoryOrder0505"]
+
+[[lean_lib]]
+name = "MemoryOrder0509"
+roots = []
+globs = ["IdealGeneration.TripleNormalReduction"]
+needs = ["MemoryOrder0506"]
+
+[[lean_lib]]
+name = "MemoryOrder0510"
+roots = []
+globs = ["IdealGeneration.TripleNormalAllowedExtension"]
+needs = ["MemoryOrder0507"]
+
+[[lean_lib]]
+name = "MemoryOrder0511"
+roots = []
+globs = ["IdealGeneration.TripleNormalExtensionMaps"]
+needs = ["MemoryOrder0508"]
+
+[[lean_lib]]
+name = "MemoryOrder0512"
+roots = []
+globs = ["IdealGeneration.TripleNormalExtensionKernel"]
+needs = ["MemoryOrder0509"]
+
+[[lean_lib]]
+name = "MemoryOrder0513"
+roots = []
+globs = ["IdealGeneration.TripleNormalMiddleKernel"]
+needs = ["MemoryOrder0510"]
+
+[[lean_lib]]
+name = "MemoryOrder0514"
+roots = []
+globs = ["IdealGeneration.TripleNormalSourceCoordinates"]
+needs = ["MemoryOrder0511"]
+
+[[lean_lib]]
+name = "MemoryOrder0515"
+roots = []
+globs = ["IdealGeneration.TripleNormalSupportedQuadrics"]
+needs = ["MemoryOrder0512"]
+
+[[lean_lib]]
+name = "MemoryOrder0516"
+roots = []
+globs = ["IdealGeneration.TripleNormalConicRows"]
+needs = ["MemoryOrder0513"]
+
+[[lean_lib]]
+name = "MemoryOrder0517"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialPattern"]
+needs = ["MemoryOrder0514"]
+
+[[lean_lib]]
+name = "MemoryOrder0518"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitialAllowed"]
+needs = ["MemoryOrder0515"]
+
+[[lean_lib]]
+name = "MemoryOrder0519"
+roots = []
+globs = ["IdealGeneration.TripleNormalInitial"]
+needs = ["MemoryOrder0516"]
+
+[[lean_lib]]
+name = "MemoryOrder0520"
+roots = []
+globs = ["IdealGeneration.TripleNormalNewLayerProducts"]
+needs = ["MemoryOrder0517"]
+
+[[lean_lib]]
+name = "MemoryOrder0521"
+roots = []
+globs = ["IdealGeneration.TripleNormalBaseEvaluation"]
+needs = ["MemoryOrder0518"]
+
+[[lean_lib]]
+name = "MemoryOrder0522"
+roots = []
+globs = ["IdealGeneration.TripleNormalNewBaseRank"]
+needs = ["MemoryOrder0519"]
+
+[[lean_lib]]
+name = "MemoryOrder0523"
+roots = []
+globs = ["IdealGeneration.TripleNormalBaseRank"]
+needs = ["MemoryOrder0520"]
+
+[[lean_lib]]
+name = "MemoryOrder0524"
+roots = []
+globs = ["IdealGeneration.TripleNormalNewLayerRestriction"]
+needs = ["MemoryOrder0521"]
+
+[[lean_lib]]
+name = "MemoryOrder0525"
+roots = []
+globs = ["IdealGeneration.TripleNormalNewLayerSourceCoordinates"]
+needs = ["MemoryOrder0522"]
+
+[[lean_lib]]
+name = "MemoryOrder0526"
+roots = []
+globs = ["IdealGeneration.TripleNormalResidualRestriction"]
+needs = ["MemoryOrder0523"]
+
+[[lean_lib]]
+name = "MemoryOrder0527"
+roots = []
+globs = ["IdealGeneration.TripleNormalSourceRestriction"]
+needs = ["MemoryOrder0524"]
+
+[[lean_lib]]
+name = "MemoryOrder0528"
+roots = []
+globs = ["IdealGeneration.TripleNormalNewBlockKernel"]
+needs = ["MemoryOrder0525"]
+
+[[lean_lib]]
+name = "MemoryOrder0529"
+roots = []
+globs = ["IdealGeneration.TripleNormalSupportedPattern"]
+needs = ["MemoryOrder0526"]
+
+[[lean_lib]]
+name = "MemoryOrder0530"
+roots = []
+globs = ["IdealGeneration.TripleNormalFlags"]
+needs = ["MemoryOrder0527"]
+
+[[lean_lib]]
+name = "MemoryOrder0531"
+roots = []
+globs = ["IdealGeneration.TripleNormalFlagExtension"]
+needs = ["MemoryOrder0528"]
+
+[[lean_lib]]
+name = "MemoryOrder0532"
+roots = []
+globs = ["IdealGeneration.TripleNormalFlagInitial"]
+needs = ["MemoryOrder0529"]
+
+[[lean_lib]]
+name = "MemoryOrder0533"
+roots = []
+globs = ["IdealGeneration.TripleNormalFlagStep"]
+needs = ["MemoryOrder0530"]
+
+[[lean_lib]]
+name = "MemoryOrder0534"
+roots = []
+globs = ["IdealGeneration.TripleNormalEnlargement"]
+needs = ["MemoryOrder0531"]
+
+[[lean_lib]]
+name = "MemoryOrder0535"
+roots = []
+globs = ["IdealGeneration.TripleNormalQuadraticStep"]
+needs = ["MemoryOrder0532"]
+
+[[lean_lib]]
+name = "MemoryOrder0536"
+roots = []
+globs = ["IdealGeneration.TwoGroupInterpolation"]
+needs = ["MemoryOrder0533"]
+
+[[lean_lib]]
+name = "MemoryOrder0537"
+roots = []
+globs = ["IdealGeneration.TwoNormalCode"]
+needs = ["MemoryOrder0534"]
+
+[[lean_lib]]
+name = "MemoryOrder0538"
+roots = []
+globs = ["IdealGeneration.TwoNormalAttachedCode"]
+needs = ["MemoryOrder0535"]
+
+[[lean_lib]]
+name = "MemoryOrder0539"
+roots = []
+globs = ["IdealGeneration.TwoNormalAttachedInterpolation"]
+needs = ["MemoryOrder0536"]
+
+[[lean_lib]]
+name = "MemoryOrder0540"
+roots = []
+globs = ["IdealGeneration.TwoNormalCokernelLinear"]
+needs = ["MemoryOrder0537"]
+
+[[lean_lib]]
+name = "MemoryOrder0541"
+roots = []
+globs = ["IdealGeneration.TwoNormalIntegral"]
+needs = ["MemoryOrder0538"]
+
+[[lean_lib]]
+name = "MemoryOrder0542"
+roots = []
+globs = ["IdealGeneration.TwoNormalMargins"]
+needs = ["MemoryOrder0539"]
+
+[[lean_lib]]
+name = "MemoryOrder0543"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalNumerics"]
+needs = ["MemoryOrder0540"]
+
+[[lean_lib]]
+name = "MemoryOrder0544"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalBudgets"]
+needs = ["MemoryOrder0541"]
+
+[[lean_lib]]
+name = "MemoryOrder0545"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalCountAssembly"]
+needs = ["MemoryOrder0542"]
+
+[[lean_lib]]
+name = "MemoryOrder0546"
+roots = []
+globs = ["IdealGeneration.TwoNormalIntegralCountAssembly"]
+needs = ["MemoryOrder0543"]
+
+[[lean_lib]]
+name = "MemoryOrder0547"
+roots = []
+globs = ["IdealGeneration.TwoNormalMarkedParameters"]
+needs = ["MemoryOrder0544"]
+
+[[lean_lib]]
+name = "MemoryOrder0548"
+roots = []
+globs = ["IdealGeneration.TwoNormalMarkedOpen"]
+needs = ["MemoryOrder0545"]
+
+[[lean_lib]]
+name = "MemoryOrder0549"
+roots = []
+globs = ["IdealGeneration.TwoNormalSlice"]
+needs = ["MemoryOrder0546"]
+
+[[lean_lib]]
+name = "MemoryOrder0550"
+roots = []
+globs = ["IdealGeneration.TwoNormalSliceCokernel"]
+needs = ["MemoryOrder0547"]
+
+[[lean_lib]]
+name = "MemoryOrder0551"
+roots = []
+globs = ["IdealGeneration.TwoNormalCokernelCompatibility"]
+needs = ["MemoryOrder0548"]
+
+[[lean_lib]]
+name = "MemoryOrder0552"
+roots = []
+globs = ["IdealGeneration.TwoNormalAmbientFiber"]
+needs = ["MemoryOrder0549"]
+
+[[lean_lib]]
+name = "MemoryOrder0553"
+roots = []
+globs = ["IdealGeneration.TwoNormalSliceOpen"]
+needs = ["MemoryOrder0550"]
+
+[[lean_lib]]
+name = "MemoryOrder0554"
+roots = []
+globs = ["IdealGeneration.TwoNormalMarkedCode"]
+needs = ["MemoryOrder0551"]
+
+[[lean_lib]]
+name = "MemoryOrder0555"
+roots = []
+globs = ["IdealGeneration.TwoNormalSource"]
+needs = ["MemoryOrder0552"]
+
+[[lean_lib]]
+name = "MemoryOrder0556"
+roots = []
+globs = ["IdealGeneration.TwoNormalTrace"]
+needs = ["MemoryOrder0553"]
+
+[[lean_lib]]
+name = "MemoryOrder0557"
+roots = []
+globs = ["IdealGeneration.TwoNormalDivision"]
+needs = ["MemoryOrder0554"]
+
+[[lean_lib]]
+name = "MemoryOrder0558"
+roots = []
+globs = ["IdealGeneration.TwoNormalEuler"]
+needs = ["MemoryOrder0555"]
+
+[[lean_lib]]
+name = "MemoryOrder0559"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalSource"]
+needs = ["MemoryOrder0556"]
+
+[[lean_lib]]
+name = "MemoryOrder0560"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalSourceOpen"]
+needs = ["MemoryOrder0557"]
+
+[[lean_lib]]
+name = "MemoryOrder0561"
+roots = []
+globs = ["IdealGeneration.TwoNormalKernel"]
+needs = ["MemoryOrder0558"]
+
+[[lean_lib]]
+name = "MemoryOrder0562"
+roots = []
+globs = ["IdealGeneration.TwoNormalAmbientCokernel"]
+needs = ["MemoryOrder0559"]
+
+[[lean_lib]]
+name = "MemoryOrder0563"
+roots = []
+globs = ["IdealGeneration.TwoNormalAmbientKernel"]
+needs = ["MemoryOrder0560"]
+
+[[lean_lib]]
+name = "MemoryOrder0564"
+roots = []
+globs = ["IdealGeneration.TwoNormalAmbientComparison"]
+needs = ["MemoryOrder0561"]
+
+[[lean_lib]]
+name = "MemoryOrder0565"
+roots = []
+globs = ["IdealGeneration.TwoNormalNormalClasses"]
+needs = ["MemoryOrder0562"]
+
+[[lean_lib]]
+name = "MemoryOrder0566"
+roots = []
+globs = ["IdealGeneration.TwoNormalOpen"]
+needs = ["MemoryOrder0563"]
+
+[[lean_lib]]
+name = "MemoryOrder0567"
+roots = []
+globs = ["IdealGeneration.TwoNormalPostulation"]
+needs = ["MemoryOrder0564"]
+
+[[lean_lib]]
+name = "MemoryOrder0568"
+roots = []
+globs = ["IdealGeneration.TwoNormalPureDimensions"]
+needs = ["MemoryOrder0565"]
+
+[[lean_lib]]
+name = "MemoryOrder0569"
+roots = []
+globs = ["IdealGeneration.TwoNormalRawPair"]
+needs = ["MemoryOrder0566"]
+
+[[lean_lib]]
+name = "MemoryOrder0570"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalSurjection"]
+needs = ["MemoryOrder0567"]
+
+[[lean_lib]]
+name = "MemoryOrder0571"
+roots = []
+globs = ["IdealGeneration.TwoNormalResidualInterpolation"]
+needs = ["MemoryOrder0568"]
+
+[[lean_lib]]
+name = "MemoryOrder0572"
+roots = []
+globs = ["IdealGeneration.TwoNormalResponse"]
+needs = ["MemoryOrder0569"]
+
+[[lean_lib]]
+name = "MemoryOrder0573"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalTrace"]
+needs = ["MemoryOrder0570"]
+
+[[lean_lib]]
+name = "MemoryOrder0574"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalCokernel"]
+needs = ["MemoryOrder0571"]
+
+[[lean_lib]]
+name = "MemoryOrder0575"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalFreePoint"]
+needs = ["MemoryOrder0572"]
+
+[[lean_lib]]
+name = "MemoryOrder0576"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalKernel"]
+needs = ["MemoryOrder0573"]
+
+[[lean_lib]]
+name = "MemoryOrder0577"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalKernelDimension"]
+needs = ["MemoryOrder0574"]
+
+[[lean_lib]]
+name = "MemoryOrder0578"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalMarkedParameters"]
+needs = ["MemoryOrder0575"]
+
+[[lean_lib]]
+name = "MemoryOrder0579"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalPairOpen"]
+needs = ["MemoryOrder0576"]
+
+[[lean_lib]]
+name = "MemoryOrder0580"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalResponse"]
+needs = ["MemoryOrder0577"]
+
+[[lean_lib]]
+name = "MemoryOrder0581"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalTraceOpen"]
+needs = ["MemoryOrder0578"]
+
+[[lean_lib]]
+name = "MemoryOrder0582"
+roots = []
+globs = ["IdealGeneration.TwoNormalMotion"]
+needs = ["MemoryOrder0579"]
+
+[[lean_lib]]
+name = "MemoryOrder0583"
+roots = []
+globs = ["IdealGeneration.TwoNormalMarkedMotion"]
+needs = ["MemoryOrder0580"]
+
+[[lean_lib]]
+name = "MemoryOrder0584"
+roots = []
+globs = ["IdealGeneration.TwoNormalIntegralAssembly"]
+needs = ["MemoryOrder0581"]
+
+[[lean_lib]]
+name = "MemoryOrder0585"
+roots = []
+globs = ["IdealGeneration.TwoNormalEndpoint"]
+needs = ["MemoryOrder0582"]
+
+[[lean_lib]]
+name = "MemoryOrder0586"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalDimensionBalance"]
+needs = ["MemoryOrder0583"]
+
+[[lean_lib]]
+name = "MemoryOrder0587"
+roots = []
+globs = ["IdealGeneration.TwoNormalIntegralMarkedTransfer"]
+needs = ["MemoryOrder0584"]
+
+[[lean_lib]]
+name = "MemoryOrder0588"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalMotion"]
+needs = ["MemoryOrder0585"]
+
+[[lean_lib]]
+name = "MemoryOrder0589"
+roots = []
+globs = ["IdealGeneration.TwoNormalIntegralDimensions"]
+needs = ["MemoryOrder0586"]
+
+[[lean_lib]]
+name = "MemoryOrder0590"
+roots = []
+globs = ["IdealGeneration.TwoNormalRestriction"]
+needs = ["MemoryOrder0587"]
+
+[[lean_lib]]
+name = "MemoryOrder0591"
+roots = []
+globs = ["IdealGeneration.TwoNormalWitness"]
+needs = ["MemoryOrder0588"]
+
+[[lean_lib]]
+name = "MemoryOrder0592"
+roots = []
+globs = ["IdealGeneration.TwoNormalIntegralInputs"]
+needs = ["MemoryOrder0589"]
+
+[[lean_lib]]
+name = "MemoryOrder0593"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalMarkedInputs"]
+needs = ["MemoryOrder0590"]
+
+[[lean_lib]]
+name = "MemoryOrder0594"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalConfiguration"]
+needs = ["MemoryOrder0591"]
+
+[[lean_lib]]
+name = "MemoryOrder0595"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalAttachments"]
+needs = ["MemoryOrder0592"]
+
+[[lean_lib]]
+name = "MemoryOrder0596"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractionalEnlargedOpen"]
+needs = ["MemoryOrder0593"]
+
+[[lean_lib]]
+name = "MemoryOrder0597"
+roots = []
+globs = ["IdealGeneration.TwoNormalFractional"]
+needs = ["MemoryOrder0594"]
+
+[[lean_lib]]
+name = "MemoryOrder0598"
+roots = []
+globs = ["IdealGeneration.TwoNormalIntegralConfiguration"]
+needs = ["MemoryOrder0595"]
+
+[[lean_lib]]
+name = "MemoryOrder0599"
+roots = []
+globs = ["IdealGeneration.TwoNormalIntegralCritical"]
+needs = ["MemoryOrder0596"]
+
+[[lean_lib]]
+name = "MemoryOrder0600"
+roots = []
+globs = ["IdealGeneration.TwoNormalIntegralTransfer"]
+needs = ["MemoryOrder0597"]
+
+[[lean_lib]]
+name = "MemoryOrder0601"
+roots = []
+globs = ["IdealGeneration.TwoNormalInduction"]
+needs = ["MemoryOrder0598"]
+
+[[lean_lib]]
+name = "MemoryOrder0602"
+roots = []
+globs = ["IdealGeneration.TheoremOneOne"]
+needs = ["MemoryOrder0599"]
+
+[[lean_lib]]
+name = "MemoryOrder0603"
+roots = []
+globs = ["IdealGeneration.PalomarBridge"]
+needs = ["MemoryOrder0600"]

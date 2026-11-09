@@ -1,0 +1,58 @@
+PASS. Audited 44626 local definitions and theorems. Only propext, Classical.choice, and Quot.sound occur.
+'IdealGeneration.generic_pointHilbertFunction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.pointEuler_maximalRank_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.reduction_to_critical_counts' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.idealGenerationAt_projectiveLine' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.exists_binary_maximal_response' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.finalCubicColumns_linearIndependent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.DeformationGeneral.matrix_first_variation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.ordinary_hyperplane_injective_cell' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.ordinary_hyperplane_surjective_cell' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.idealGenerationAt_projectivePlane' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.generic_twoGroupInterpolation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.integral_hyperplane_transfer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.DifferentialPoint.moving_point_independent_principal_open' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'IdealGeneration.ScalarTraceReduction.maximalRank_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.ConeConfiguration.idealGenerationAt_of_middle' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'IdealGeneration.pairEvaluation_rank' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.quartic_one_hyperplane_range' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.quintic_three_of_quartic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.CubicPair.RationalConstruction.primitivePairColumns_linearIndependent_over' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'IdealGeneration.QuadraticFlag.quadratic_flag_direct_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.generic_fixedPartialTrace' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.generic_pointIdeal_two_degree_generation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.FractionalTransferCounts.exists_fractional_joint_witnesses' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'IdealGeneration.fractional_hyperplane_transfer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.one_hyperplane_induction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.idealGenerationConjecture_of_quadratic_cubic_and_two_normal' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'IdealGeneration.integer_matrix_det_ne_zero_over' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.QuadraticInjectiveCore.core_parameters_eq_zero' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'IdealGeneration.cubic_root_matrix_det_ne_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.TwoNormalIntegral.proposition4_5' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.TwoNormalFractional.proposition5_1' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.two_normal_induction_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.allPointCounts_of_quadratic_and_cubic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.idealGenerationAt_exact_generator_dimensions' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'IdealGeneration.pointIdeal_isRadical' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.CoordinateSubspace.pointIdeal_embedPoints' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.cubic_through_eleven_variables_of_quadratic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.cubicEvenMiddleWitness_all' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.TripleNormal.quadratic_three_normal_step' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.idealGenerationAt_quadratic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.idealGenerationAt_cubic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGeneration.theorem_one_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'IdealGenerationPaper.main_result' depends on axioms: [propext, Classical.choice, Quot.sound]

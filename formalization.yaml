@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Ideal generation for general reduced projective points"
+  description: >-
+    Formalizes Theorem 1.1 of Ideal Generation for General Reduced Projective
+    Points. Over an algebraically closed field of characteristic zero, for
+    every projective dimension n >= 1, degree D >= 2 and point count between
+    binomial(n+D-1,D-1) and binomial(n+D,D)-1, a nonempty principal open of
+    ordered reduced point configurations has maximal-rank multiplication
+    from I_D tensor S_1 to I_(D+1). The homogeneous ideal has the exact
+    predicted numbers of minimal generators in degrees D and D+1 and is
+    generated in those degrees. Generality is expressed in the standard
+    affine chart of projective space. The points are actual projective
+    classes and their homogeneous ideal is radical.
+  authors: ["Vlado Vojdanovski"]
+  responsible_maintainers: ["Vlado Vojdanovski"]
+  license: "Apache-2.0"
+
+classification:
+  arxiv: ["math.AG", "math.AC"]
+  msc2020: ["13D02", "13D40", "14N05"]
+
+sources:
+  - title: "Ideal generation for general reduced projective points"
+    authors: ["Vlado Vojdanovski"]
+    id: "Ideal_generation_for_general_reduced_projective_points.pdf"
+    type: "paper"
+    location: "Theorem 1.1, Sections 2-6 and Appendices A-C"
+    relationship: "formalizes"
+
+related_formalizations:
+  - id: "https://github.com/Vlado-V/chopped-plane-point-ideals/tree/4200d41342404e66f177d067763c0d1c1dd2d768"
+    relationship: "adapts"
+    note: >-
+      The homogeneous-space, point-ideal and polynomial rank-open
+      infrastructure adapts the author's earlier ChoppedPlane development.
+      Source attribution and the Apache-2.0 licence are retained.
+  - id: "https://github.com/Vlado-V/froberg-2d/tree/4a392281c6f6eee2a7322b760039991ae3902e5d"
+    relationship: "adapts"
+    note: >-
+      Homogeneous monomial bases and dimension arguments derive from
+      Quartic.Homogeneous through the earlier ChoppedPlane infrastructure,
+      as recorded in IdealGeneration/Homogeneous.lean.
+  - id: "https://github.com/openai/math/tree/7ef5c0cc5ca4b0e072b7a050fca09ab24bc6fa3a/lean"
+    relationship: "adapts"
+    note: >-
+      The homogeneous evaluation scaling argument adapts OAI.Nagata.W16,
+      reproduced in IdealGeneration/Homogeneous.lean. This repository
+      depends on Mathlib and includes the adapted proof locally.
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["GPT-6"]
+      framework: "OpenAI Codex"
+      tool_setup: >-
+        AI-assisted Lean proof development with coordinated agents,
+        exact finite-field certificates, strict Lean compilation and
+        audits of the complete local declaration dependency closure.
+
+review:
+  status: "agent-reviewed"
+  notes: >-
+    Separate agent reviews checked the statement, coordinate and tensor
+    formulations, finite certificates and induction interfaces. The
+    completed theorem was checked by Lean and audited for axioms.
+    The publication copy is ported to Lean's module system, with a
+    split of the oversized twelve-variable certificate. Palomar runs
+    its own mechanical verification and editorial review.
